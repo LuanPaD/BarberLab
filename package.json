@@ -6,16 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.8.2",
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.511.0",
     "next": "14.2.29",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20.17.52",
@@ -23,6 +30,9 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.29",
+    "git-commit-msg-linter": "^5.0.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.0",
     "postcss": "^8",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
