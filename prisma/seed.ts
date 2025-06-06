@@ -1,4 +1,7 @@
-import { PrismaClient } from "../app/generated/prisma"
+//import { PrismaClient } from "../app/generated/prisma"
+//const { PrismaClient } = require("@prisma/client");
+
+import { PrismaClient } from "@prisma/client"
 
 async function seedDatabase() {
   const prisma = new PrismaClient()
