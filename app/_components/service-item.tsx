@@ -124,7 +124,6 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
       })
       await createBooking({
         serviceId: service.id,
-        userId: (data?.user as { id: string }).id,
         date: newDate,
       })
       handleBookingSheetOpenChange()
@@ -173,7 +172,8 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   Reservar
                 </Button>
 
-                <SheetContent className="px-0">
+                {/* <SheetContent className="px-0"> */}
+                <SheetContent className="overflow-y-auto px-0">
                   <SheetHeader>
                     <SheetTitle>Fazer Reserva</SheetTitle>
                   </SheetHeader>
@@ -184,29 +184,15 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                       locale={ptBR}
                       selected={selectedDay}
                       onSelect={handleDateSelect}
-                      fromDate={new Date()}
-                      styles={{
-                        head_cell: {
-                          width: "100%",
-                          textTransform: "capitalize",
-                        },
-                        cell: {
-                          width: "100%",
-                        },
-                        button: {
-                          width: "100%",
-                        },
-                        nav_button_previous: {
-                          width: "32px",
-                          height: "32px",
-                        },
-                        nav_button_next: {
-                          width: "32px",
-                          height: "32px",
-                        },
-                        caption: {
-                          textTransform: "capitalize",
-                        },
+                      disabled={(date) => date < new Date()}
+                      className="w-full"
+                      classNames={{
+                        head_cell: "w-full text-transform-capitalize",
+                        cell: "w-full",
+                        button: "w-full",
+                        nav_button_previous: "w-8 h-8",
+                        nav_button_next: "w-8 h-8",
+                        caption: "capitalize",
                       }}
                     />
                   </div>
