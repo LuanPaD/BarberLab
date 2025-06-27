@@ -171,6 +171,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
               alt={service.name}
               src={service.imageUrl}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="rounded-lg object-cover"
             />
           </div>
