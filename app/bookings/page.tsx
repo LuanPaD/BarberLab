@@ -1,9 +1,11 @@
 import { getServerSession } from "next-auth"
 import Header from "../_components/header"
-import { db } from "../_lib/prisma"
 import { authOptions } from "../_lib/auth"
 import { notFound } from "next/navigation"
 import BookingItem from "../_components/booking-item"
+import { getConfirmedBookings } from "../_data/get-confirmed-bookings"
+import { getConcludedBookings } from "../_data/get-concluded-bookings"
+import { Key } from "react"
 
 const Bookings = async () => {
   const session = await getServerSession(authOptions)
@@ -11,42 +13,8 @@ const Bookings = async () => {
     // TODO: mostrar pop-up de login
     return notFound()
   }
-  const confirmedBookings = await db.booking.findMany({
-    where: {
-      userId: (session.user as { id: string }).id,
-      date: {
-        gte: new Date(),
-      },
-    },
-    include: {
-      service: {
-        include: {
-          barbershop: true,
-        },
-      },
-    },
-    orderBy: {
-      date: "asc",
-    },
-  })
-  const concludedBookings = await db.booking.findMany({
-    where: {
-      userId: (session.user as { id: string }).id,
-      date: {
-        lt: new Date(),
-      },
-    },
-    include: {
-      service: {
-        include: {
-          barbershop: true,
-        },
-      },
-    },
-    orderBy: {
-      date: "asc",
-    },
-  })
+  const confirmedBookings = await getConfirmedBookings()
+  const concludedBookings = await getConcludedBookings()
 
   return (
     <>
@@ -61,12 +29,14 @@ const Bookings = async () => {
             <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
               Confirmados
             </h2>
-            {confirmedBookings.map((booking) => (
-              <BookingItem
-                key={booking.id}
-                booking={JSON.parse(JSON.stringify(booking))}
-              />
-            ))}
+            {confirmedBookings.map(
+              (booking: { id: Key | null | undefined }) => (
+                <BookingItem
+                  key={booking.id}
+                  booking={JSON.parse(JSON.stringify(booking))}
+                />
+              ),
+            )}
           </>
         )}
         {concludedBookings.length > 0 && (
@@ -74,12 +44,14 @@ const Bookings = async () => {
             <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
               Finalizados
             </h2>
-            {concludedBookings.map((booking) => (
-              <BookingItem
-                key={booking.id}
-                booking={JSON.parse(JSON.stringify(booking))}
-              />
-            ))}
+            {concludedBookings.map(
+              (booking: { id: Key | null | undefined }) => (
+                <BookingItem
+                  key={booking.id}
+                  booking={JSON.parse(JSON.stringify(booking))}
+                />
+              ),
+            )}
           </>
         )}
       </div>

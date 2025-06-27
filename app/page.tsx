@@ -11,6 +11,8 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "./_lib/auth"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { getConfirmedBookings } from "./_data/get-confirmed-bookings"
+import { Key } from "react"
 
 const Home = async () => {
   const session = await getServerSession(authOptions)
@@ -20,26 +22,7 @@ const Home = async () => {
       name: "desc",
     },
   })
-  const confirmedBookings = session?.user
-    ? await db.booking.findMany({
-        where: {
-          userId: (session.user as { id: string }).id,
-          date: {
-            gte: new Date(),
-          },
-        },
-        include: {
-          service: {
-            include: {
-              barbershop: true,
-            },
-          },
-        },
-        orderBy: {
-          date: "asc",
-        },
-      })
-    : []
+  const confirmedBookings = await getConfirmedBookings()
 
   return (
     <div>
@@ -105,12 +88,14 @@ const Home = async () => {
 
             {/* AGENDAMENTO */}
             <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-              {confirmedBookings.map((booking) => (
-                <BookingItem
-                  key={booking.id}
-                  booking={JSON.parse(JSON.stringify(booking))}
-                />
-              ))}
+              {confirmedBookings.map(
+                (booking: { id: Key | null | undefined }) => (
+                  <BookingItem
+                    key={booking.id}
+                    booking={JSON.parse(JSON.stringify(booking))}
+                  />
+                ),
+              )}
             </div>
           </>
         )}
