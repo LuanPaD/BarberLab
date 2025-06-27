@@ -52,7 +52,7 @@ const Home = async () => {
         <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
           {quickSearchOptions.map((option) => (
             <Button
-              className="gap-2"
+              className="shrink-0 gap-2"
               variant="secondary"
               key={option.title}
               asChild
@@ -83,7 +83,7 @@ const Home = async () => {
 
         {confirmedBookings.length > 0 && (
           <>
-            <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+            <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
               Agendamentos
             </h2>
 
@@ -101,7 +101,7 @@ const Home = async () => {
           </>
         )}
 
-        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+        <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
           Recomendados
         </h2>
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
@@ -110,7 +110,7 @@ const Home = async () => {
           ))}
         </div>
 
-        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+        <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
           Populares
         </h2>
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
