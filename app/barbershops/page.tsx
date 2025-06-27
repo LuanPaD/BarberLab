@@ -3,14 +3,18 @@ import Header from "../_components/header"
 import Search from "../_components/search"
 import { getBarbershopsBySearchParams } from "../_data/getBarbershopsBySearchParams"
 
-interface BarbershopsPageProps {
-  searchParams: {
-    title?: string
-    service?: string
-  }
-}
+// interface BarbershopsPageProps {
+//   searchParams: {
+//     title?: string
+//     service?: string
+//   }
+// }
 
-const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
+// const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const BarbershopsPage = async ({ searchParams }: any) => {
+  searchParams =
+    searchParams instanceof Promise ? await searchParams : searchParams
   const barbershops = await getBarbershopsBySearchParams(searchParams)
 
   return (

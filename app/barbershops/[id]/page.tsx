@@ -9,13 +9,17 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getBarbershopsById } from "../../_data/get-barbershop-by-id"
 
-interface BarbershopPageProps {
-  params: {
-    id: string
-  }
-}
+// interface BarbershopPageProps {
+//   params: {
+//     id: string
+//   }
+// }
 
-const BarbershopPage = async ({ params }: BarbershopPageProps) => {
+// const BarbershopPage = async ({ params }: BarbershopPageProps) => {
+// const BarbershopPage = async ({ params }: { params: { id: string } }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const BarbershopPage = async ({ params }: any) => {
+  params = params instanceof Promise ? await params : params
   const barbershop = await getBarbershopsById(params.id)
 
   if (!barbershop) {
@@ -30,7 +34,10 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           alt={barbershop.name}
           src={barbershop?.imageUrl}
           fill
+          sizes="100vw"
+          quality={100}
           className="object-cover"
+          priority={true}
         />
 
         <Button
