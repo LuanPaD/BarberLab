@@ -66,7 +66,11 @@ const BookingItem = ({ booking }: BookingItemProps) => {
     setIsSheetOpen(isOpen)
   }
   return (
-    <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
+    <Sheet
+      open={isSheetOpen}
+      onOpenChange={handleSheetOpenChange}
+      aria-label="Informações da reserva"
+    >
       <SheetTrigger className="w-full min-w-[90%]">
         <Card className="min-w-[90%]">
           <CardContent className="flex justify-between p-0">
@@ -102,7 +106,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           </CardContent>
         </Card>
       </SheetTrigger>
-      <SheetContent className="w-[85%]">
+      <SheetContent className="w-[85%]" aria-describedby={undefined}>
         <SheetHeader>
           <SheetTitle className="text-left">Informações da Reserva</SheetTitle>
         </SheetHeader>
@@ -159,7 +163,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             </SheetClose>
             {isConfirmed && (
               <Dialog>
-                <DialogTrigger className="w-full">
+                <DialogTrigger asChild>
                   <Button variant="destructive" className="w-full">
                     Cancelar Reserva
                   </Button>
@@ -178,7 +182,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                         Voltar
                       </Button>
                     </DialogClose>
-                    <DialogClose className="w-full">
+                    <DialogClose asChild>
                       <Button
                         variant="destructive"
                         onClick={handleCancelBooking}

@@ -76,6 +76,7 @@ const Home = async () => {
             alt="Agende nos melhores com Barber Lab"
             src="/banner-01.png"
             fill
+            priority
             className="rounded-xl object-cover"
           />
         </div>

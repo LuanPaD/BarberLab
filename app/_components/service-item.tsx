@@ -200,19 +200,28 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   Reservar
                 </Button>
 
-                <SheetContent className="px-0">
+                <SheetContent className="px-0" aria-describedby={undefined}>
                   <SheetHeader>
                     <SheetTitle>Fazer Reserva</SheetTitle>
                   </SheetHeader>
 
-                  <div className="border-b border-solid py-5">
+                  <div className="border-b border-solid px-5 py-5">
                     <Calendar
                       mode="single"
                       locale={ptBR}
                       selected={selectedDay}
                       onSelect={handleDateSelect}
-                      fromDate={new Date()}
+                      disabled={(date: Date) =>
+                        date < new Date(new Date().setHours(0, 0, 0, 0))
+                      }
+                      className="w-full"
                       styles={{
+                        root: {
+                          width: "100%",
+                        },
+                        table: {
+                          width: "100%",
+                        },
                         head_cell: {
                           width: "100%",
                           textTransform: "capitalize",
