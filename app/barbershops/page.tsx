@@ -24,8 +24,9 @@ const BarbershopsPage = async ({ searchParams }: any) => {
         <Search />
       </div>
       <div className="px-5">
-        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
-          Resultados para &quot;{searchParams?.title || searchParams?.service}
+        <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
+          Resultados para &quot;
+          {searchParams?.title || searchParams?.service || searchParams?.tag}
           &quot;
         </h2>
         <div className="grid grid-cols-2 gap-4">
