@@ -41,7 +41,7 @@ const Search = () => {
             <FormItem className="w-full">
               <FormControl>
                 <Input
-                  placeholder="Buscar barbearia ou serviço..."
+                  placeholder="Buscar barbearia pelo nome..."
                   className="bg-background/50 border-0 shadow-sm backdrop-blur-sm transition-shadow focus:shadow-md lg:h-14 lg:rounded-xl lg:px-6 lg:text-base"
                   {...field}
                 />
