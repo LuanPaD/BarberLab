@@ -42,14 +42,6 @@
   --radius-sm: calc(var(--radius) - 4px);
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
   *,
   ::after,
@@ -68,31 +60,32 @@
     --card: 228 9% 11%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 228 9% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 140 10% 14%;
+    --popover-foreground: 140 30% 95%;
 
-    --primary: 252 100% 69%;
+    --primary: 140 70% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 228 6% 16%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 140 15% 20%;
+    --secondary-foreground: 140 30% 95%;
 
-    --muted: 228 6% 16%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 140 15% 20%;
+    --muted-foreground: 140 20% 70%;
 
-    --accent: 228 6% 16%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 140 15% 20%;
+    --accent-foreground: 140 30% 95%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 140 30% 95%;
 
-    --border: 228 6% 16%;
-    --input: 228 6% 16%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 140 15% 20%;
+    --input: 140 15% 20%;
+    --ring: 140 60% 70%;
 
     --radius: 0.5rem;
   }
 }
+
 
 @layer base {
   * {
