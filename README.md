@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 🧱 BarberLab
+SaaS de reserva de barbeiros, para o usuário selecionar o serviço que deseja fazer, e agendar, diretamente pelo site...
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Projeto full‑stack com **Next.js**.
+```text
+🗂️ Estrutura do Projeto
+`/`
+├─ app/               → Páginas, rotas, actions e componentes 
+├─ prisma/            → Arquivos de acesso ao banco 
+├─ public/            → Arquivos estáticos (imagens, fontes etc.) 
+├─ .husky/            → Hooks do Git
+├─ .eslintrc.json     → Configuração do ESLint
+├─ .prettierrc        → Configuração do Prettier
+├─ next.config.mjs    → Configurações personalizadas do Next.js
+├─ tsconfig.json      → Configurações do TypeScript
+├─ package.json       → Scripts e dependências
+└─ ...                → Outros arquivos de configuração
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Pré‑requisitos
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Node.js (v16+ recomendada)  
+- npm, yarn, pnpm ou bun
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧩 Tech Stack
 
-## Learn More
+[![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white&style=for-the-badge)](https://nextjs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?logo=postgresql&logoColor=white&style=for-the-badge)](https://www.postgresql.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white&style=for-the-badge)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB&style=for-the-badge)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white&style=for-the-badge)](https://tailwindcss.com/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-2.7-000000?logo=shadcnui&logoColor=white&style=for-the-badge)](https://ui.shadcn.com)
+[![Prisma](https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=blue&style=for-the-badge)](https://www.prisma.io/)
 
-To learn more about Next.js, take a look at the following resources:
+## 📸 Showcase
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<!--
+### Desktop
+![Desktop view](./path/to/desktop.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Mobile
+![Mobile view](./path/to/mobile.png)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### GIF
+![App demo](./path/to/demo.gif)
+-->
