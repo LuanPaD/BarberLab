@@ -44,7 +44,7 @@ const Home = async () => {
               {/* Seção de boas-vindas */}
               <div className="space-y-4 lg:space-y-6">
                 <div className="space-y-2">
-                  <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-xl font-bold lg:text-5xl lg:leading-tight lg:font-extrabold">
+                  <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-xl font-bold lg:text-4xl lg:leading-tight lg:font-extrabold">
                     Olá, {session?.user ? session.user.name : "bem vindo"}!
                   </h1>
                   <div className="text-muted-foreground flex items-center gap-2 lg:text-xl">
@@ -63,7 +63,7 @@ const Home = async () => {
 
                 {/* Cartões de estatísticas (desktop) */}
                 <div className="hidden lg:my-8 lg:grid lg:grid-cols-3 lg:gap-4">
-                  <div className="bg-card/50 hover:bg-card/70 rounded-xl border p-4 backdrop-blur-sm transition-colors">
+                  <div className="bg-card/50 hover:bg-primary/20 rounded-xl border p-4 backdrop-blur-sm transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="bg-primary/10 rounded-lg p-2">
                         <StarIcon className="text-primary h-5 w-5" />
@@ -76,7 +76,7 @@ const Home = async () => {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-card/50 hover:bg-card/70 rounded-xl border p-4 backdrop-blur-sm transition-colors">
+                  <div className="bg-card/50 hover:bg-primary/20 rounded-xl border p-4 backdrop-blur-sm transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="bg-primary/10 rounded-lg p-2">
                         <MapPinIcon className="text-primary h-5 w-5" />
@@ -89,7 +89,7 @@ const Home = async () => {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-card/50 hover:bg-card/70 rounded-xl border p-4 backdrop-blur-sm transition-colors">
+                  <div className="bg-card/50 hover:bg-primary/20 rounded-xl border p-4 backdrop-blur-sm transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="bg-primary/10 rounded-lg p-2">
                         <TrendingUpIcon className="text-primary h-5 w-5" />
@@ -160,11 +160,11 @@ const Home = async () => {
                 {/* Desktop image */}
                 <Image
                   alt="Agende nos melhores com Barber Lab"
-                  src="/desktop-banner.png"
+                  src="/desktop-banner1.png"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   priority
-                  className="hidden object-cover transition-transform duration-700 group-hover:scale-105 lg:block"
+                  className="hidden object-fill transition-transform duration-700 group-hover:scale-105 lg:block"
                 />
 
                 {/* Sobreposição com gradiente */}
@@ -178,9 +178,6 @@ const Home = async () => {
                   <p className="mb-4 text-white/90">
                     Profissionais qualificados e ambiente moderno
                   </p>
-                  <Button className="bg-white text-black hover:bg-white/90">
-                    Ver barbearias
-                  </Button>
                 </div>
               </div>
             </div>
@@ -198,14 +195,17 @@ const Home = async () => {
 
               <div className="flex gap-3 overflow-x-auto lg:grid lg:grid-cols-2 lg:gap-6 lg:overflow-visible xl:grid-cols-3 [&::-webkit-scrollbar]:hidden">
                 {confirmedBookings.map((booking) => (
-                  <BookingItem key={booking.id} booking={booking} />
+                  <BookingItem
+                    key={booking.id}
+                    booking={JSON.parse(JSON.stringify(booking))}
+                  />
                 ))}
               </div>
             </div>
           )}
 
           {/* Seção recomendados */}
-          <div className="mt-12 lg:mt-20">
+          <div id="recomendados" className="mt-12 lg:mt-20">
             <div className="mb-6 flex items-center justify-between lg:mb-8">
               <div className="flex items-center gap-3">
                 <StarIcon className="text-primary h-5 w-5 lg:h-6 lg:w-6" />
@@ -219,7 +219,7 @@ const Home = async () => {
             </div>
 
             <div className="flex gap-4 overflow-auto lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible xl:grid-cols-4 2xl:grid-cols-5 [&::-webkit-scrollbar]:hidden">
-              {barbershops.slice(0, 8).map((barbershop) => (
+              {barbershops.slice(0, 5).map((barbershop) => (
                 <BarbershopItem key={barbershop.id} barbershop={barbershop} />
               ))}
             </div>
@@ -240,7 +240,7 @@ const Home = async () => {
             </div>
 
             <div className="flex gap-4 overflow-auto lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible xl:grid-cols-4 2xl:grid-cols-5 [&::-webkit-scrollbar]:hidden">
-              {popularBarbershops.slice(0, 8).map((barbershop) => (
+              {popularBarbershops.slice(0, 10).map((barbershop) => (
                 <BarbershopItem key={barbershop.id} barbershop={barbershop} />
               ))}
             </div>

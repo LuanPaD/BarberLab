@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form"
 
+export const searchInputRef = { current: null as null | HTMLInputElement }
+
 const formSchema = z.object({
   title: z.string().trim().min(1, {
     message: "Digite algo para buscar",
@@ -22,6 +24,7 @@ const Search = () => {
       title: "",
     },
   })
+
   const router = useRouter()
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
@@ -41,9 +44,13 @@ const Search = () => {
             <FormItem className="w-full">
               <FormControl>
                 <Input
+                  {...field}
+                  ref={(el) => {
+                    field.ref(el)
+                    searchInputRef.current = el
+                  }}
                   placeholder="Buscar barbearia pelo nome..."
                   className="bg-background/50 border-0 shadow-sm backdrop-blur-sm transition-shadow focus:shadow-md lg:h-14 lg:rounded-xl lg:px-6 lg:text-base"
-                  {...field}
                 />
               </FormControl>
               <FormMessage />

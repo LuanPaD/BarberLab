@@ -45,7 +45,6 @@ interface BookingItemProps {
   }>
 }
 
-// TODO: receber agendamento como prop
 const BookingItem = ({ booking }: BookingItemProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const {
@@ -72,7 +71,10 @@ const BookingItem = ({ booking }: BookingItemProps) => {
       aria-label="Informações da reserva"
     >
       <SheetTrigger className="w-full min-w-[90%]">
-        <Card className="min-w-[90%]">
+        <Card
+          id={booking.id}
+          className="hover:bg-card/20 min-w-[90%] transition-shadow hover:scale-[1.03] hover:cursor-pointer hover:shadow-md"
+        >
           <CardContent className="flex justify-between p-0">
             {/* ESQUERDA */}
             <div className="flex flex-col gap-2 py-5 pl-5">
@@ -116,6 +118,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             alt={`Mapa da barbearia ${booking.service.barbershop.name}`}
             src="/map.png"
             fill
+            sizes="(max-width: 600px) 100vw, 600px"
             className="rounded-xl object-cover"
           />
 
@@ -140,7 +143,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             {isConfirmed ? "Confirmado" : "Finalizado"}
           </Badge>
 
-          <div className="mb-3 mt-6">
+          <div className="mt-6 mb-3">
             <BookingSummary
               barbershop={barbershop}
               service={booking.service}
@@ -155,9 +158,9 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           </div>
         </div>
         <SheetFooter className="mt-6">
-          <div className="flex items-center gap-3">
+          <div className="grid grid-cols-2 items-center gap-3">
             <SheetClose asChild>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-auto">
                 Voltar
               </Button>
             </SheetClose>
