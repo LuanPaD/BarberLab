@@ -12,6 +12,11 @@ const Footer = () => {
             <p className="text-center text-sm text-gray-400">
               © 2025 Copyright <span className="font-bold">Barber Lab</span>
             </p>
+
+            <p>
+              {" "}
+              Desenvolvido por <span className="font-bold">Luan</span>
+            </p>
           </div>
 
           {/* Desktop layout */}
@@ -114,11 +119,11 @@ const Footer = () => {
                 <div className="text-muted-foreground space-y-3 text-sm">
                   <div className="flex items-center gap-2">
                     <PhoneIcon className="h-4 w-4" />
-                    <span>(11) 99999-9999</span>
+                    <span>(14) 99667-4489</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MailIcon className="h-4 w-4" />
-                    <span>contato@barberlab.com</span>
+                    <span>luanpmiranda@gmail.com</span>
                   </div>
                 </div>
               </div>
@@ -130,13 +135,23 @@ const Footer = () => {
                 © 2025 <span className="font-bold">Barber Lab</span>. Todos os
                 direitos reservados.
               </p>
+
               <p>
                 Desenvolvido por{" "}
                 <Link
-                  className="hover:text-primary text-red-700 transition-colors"
+                  className="hover:text-primary flex items-center text-[#0077B5] transition-colors"
                   href="https://www.linkedin.com/in/luan-padilha-b73054239/"
                 >
-                  Luan
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={16}
+                    height={16}
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm15.5 11.268h-3v-5.604c0-1.337-.025-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.968v5.699h-3v-10h2.881v1.367h.041c.401-.761 1.379-1.563 2.841-1.563 3.039 0 3.6 2.001 3.6 4.599v5.597z" />
+                  </svg>
+                  <span className="ml-2 font-bold">Luan</span>
                 </Link>
               </p>
               <div className="text-muted-foreground flex items-center gap-6 text-sm">
