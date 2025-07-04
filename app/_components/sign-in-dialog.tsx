@@ -8,7 +8,19 @@ const SignInDialog = () => {
 
   return (
     <>
-      <DialogHeader>
+      {/* Desktop Style */}
+      <div className="hidden w-full items-center justify-center p-5 md:flex">
+        <DialogHeader className="flex w-full flex-col items-center">
+          <DialogTitle className="w-full text-center text-lg font-bold">
+            Faça login na plataforma
+          </DialogTitle>
+          <DialogDescription className="w-full text-center text-sm text-gray-500">
+            Conecte-se usando sua conta do Google.
+          </DialogDescription>
+        </DialogHeader>
+      </div>
+
+      <DialogHeader className="md:hidden">
         <DialogTitle>Faça login na plataforma</DialogTitle>
         <DialogDescription>
           Conecte-se usando sua conta do Google.
