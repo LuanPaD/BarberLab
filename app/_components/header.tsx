@@ -1,12 +1,65 @@
+"use client"
+
 import Image from "next/image"
 import { Card, CardContent } from "./ui/card"
 import { Button } from "./ui/button"
-import { MenuIcon, SearchIcon, UserIcon } from "lucide-react"
+import { MenuIcon, SearchIcon } from "lucide-react"
 import { Sheet, SheetTrigger } from "./ui/sheet"
 import SidebarSheet from "./sidebar-sheet"
 import Link from "next/link"
+import UserMenu from "./user-menu"
+import { searchInputRef } from "./search"
+import React from "react"
 
-const Header = () => {
+interface HeaderProps {
+  specialSearchElements?: { id: string; name: string }[]
+}
+
+const referenciaDoComponenteInput = searchInputRef
+
+const Header: React.FC<HeaderProps> = ({ specialSearchElements = [] }) => {
+  const [searchTerm, setSearchTerm] = React.useState("")
+  const [showSearch, setShowSearch] = React.useState(false)
+
+  const handleSpecialSearch = React.useCallback(
+    (searchTerm: string) => {
+      if (!specialSearchElements || specialSearchElements.length === 0) return
+
+      if (searchTerm === "") {
+        specialSearchElements.forEach((el) => {
+          document.getElementById(el.id)?.classList.remove("hidden")
+        })
+        return
+      }
+
+      specialSearchElements.forEach((el) => {
+        const element = document.getElementById(el.id)
+        if (element) {
+          element.classList.toggle(
+            "hidden",
+            !el.name.toLowerCase().includes(searchTerm),
+          )
+        }
+      })
+    },
+    [specialSearchElements],
+  )
+
+  React.useEffect(() => {
+    handleSpecialSearch(searchTerm)
+  }, [searchTerm, handleSpecialSearch])
+
+  const handleSearchClick = () => {
+    const inputEncontradoNaPaginaAtual = referenciaDoComponenteInput.current
+
+    if (inputEncontradoNaPaginaAtual) {
+      referenciaDoComponenteInput?.current?.focus()
+      return
+    }
+
+    setShowSearch(true)
+  }
+
   return (
     <Card className="bg-card/95 sticky top-0 z-50 border-b backdrop-blur-sm">
       <CardContent className="flex flex-row items-center justify-between p-5 lg:px-8 lg:py-6">
@@ -17,12 +70,11 @@ const Header = () => {
             priority
             height={18}
             width={120}
-            style={{ height: "auto", width: "auto" }}
             className="lg:h-8 lg:w-auto"
           />
         </Link>
 
-        {/* Desktop Navigation - hidden on mobile */}
+        {/* Navegação Desktop */}
         <nav className="hidden lg:flex lg:items-center lg:gap-8">
           <Link
             href="/"
@@ -47,18 +99,47 @@ const Header = () => {
           </Link>
         </nav>
 
-        {/* Desktop Actions - hidden on mobile */}
+        {/* Ações Desktop */}
         <div className="hidden lg:flex lg:items-center lg:gap-4">
-          <Button variant="ghost" size="icon" className="hover:bg-primary/10">
-            <SearchIcon className="h-5 w-5" />
+          {/* Botão de pesquisa que abre um input ao lado */}
+          <div className="relative flex items-center">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hover:bg-primary/10"
+              onClick={handleSearchClick}
+              aria-label="Pesquisar"
+              type="button"
+            >
+              <SearchIcon className="h-5 w-5" />
+            </Button>
+
+            {showSearch && (
+              <input
+                type="text"
+                className="border-input bg-background focus:ring-primary rounded border px-3 py-1 text-sm transition-all duration-200 focus:ring-2 focus:outline-none"
+                placeholder="Pesquisar..."
+                autoFocus
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+                onBlur={() => {
+                  if (!searchTerm) {
+                    setShowSearch(false)
+                    setSearchTerm("")
+                  }
+                }}
+              />
+            )}
+          </div>
+
+          <UserMenu />
+
+          <Button className="bg-primary hover:bg-primary/50" asChild>
+            <Link href="/barbershops?tag=recomendados">Agendar</Link>
           </Button>
-          <Button variant="ghost" size="icon" className="hover:bg-primary/10">
-            <UserIcon className="h-5 w-5" />
-          </Button>
-          <Button className="bg-primary hover:bg-primary/90">Agendar</Button>
         </div>
 
-        {/* Mobile Menu Button - hidden on desktop */}
+        {/* Botão do menu mobile */}
         <Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="outline" className="lg:hidden">
