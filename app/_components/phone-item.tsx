@@ -14,6 +14,10 @@ const PhoneItem = ({ phone }: PhoneItemProps) => {
     toast.success("Telefone copiado com sucesso!")
   }
 
+  const handleCallClick = (phone: string) => {
+    window.open(`tel:${phone}`, "_self")
+  }
+
   return (
     <div className="flex justify-between" key={phone}>
       {/* ESQUERDA */}
@@ -28,6 +32,13 @@ const PhoneItem = ({ phone }: PhoneItemProps) => {
         onClick={() => handleCopyPhoneClick(phone)}
       >
         Copiar
+      </Button>
+      <Button
+        size="sm"
+        onClick={() => handleCallClick(phone)}
+        className="bg-primary hover:bg-primary/90"
+      >
+        Ligar
       </Button>
     </div>
   )
