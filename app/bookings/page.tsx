@@ -346,6 +346,35 @@ const Bookings = async () => {
               </div>
             )}
           </div>
+
+          {(totalReservasConfirmadas > 0 || totalReservasConcluidas > 0) && (
+            <div className="mt-16 lg:mt-24">
+              <Card className="from-primary/10 to-primary/5 border-primary/20 overflow-hidden bg-gradient-to-br backdrop-blur-sm">
+                <CardContent className="relative p-8 text-center lg:p-12">
+                  <div className="from-primary/5 absolute inset-0 bg-gradient-to-br to-transparent"></div>
+                  <div className="relative z-10">
+                    <h3 className="mb-4 text-2xl font-bold lg:text-3xl">
+                      Pronto para o próximo visual?
+                    </h3>
+                    <p className="text-muted-foreground mx-auto mb-8 max-w-2xl lg:text-lg">
+                      Agende seu próximo horário e continue cuidando da sua
+                      aparência com os melhores profissionais.
+                    </p>
+                    <Button
+                      size="lg"
+                      className="bg-primary hover:bg-primary/90 shadow-lg"
+                      asChild
+                    >
+                      <Link href="/barbershops">
+                        <CalendarIcon className="mr-2 h-5 w-5" />
+                        Agendar Novo Horário
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
     </div>
