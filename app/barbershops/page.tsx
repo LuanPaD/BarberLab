@@ -35,28 +35,28 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
     "todas as barbearias"
   const totalResults = barbershops.length
 
-  if (barbershops.length === 0 && searchTerm === "todas as barbearias") {
-    return (
-      <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
-        <Header />
-        <div className="mx-auto max-w-7xl p-5 lg:px-8 lg:py-12">
-          <Card className="bg-card/30 overflow-hidden border-0 backdrop-blur-sm">
-            <CardContent className="p-8 text-center">
-              <h2 className="mb-4 text-2xl font-bold">
-                Nenhuma barbearia encontrada
-              </h2>
-              <p className="text-muted-foreground mb-6">
-                Tente ajustar os filtros ou buscar por outros termos.
-              </p>
-              <Button asChild>
-                <Link href="/">Voltar ao Início</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    )
-  }
+  // if (barbershops.length === 0 && searchTerm === "todas as barbearias") {
+  //   return (
+  //     <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
+  //       <Header />
+  //       <div className="mx-auto max-w-7xl p-5 lg:px-8 lg:py-12">
+  //         <Card className="bg-card/30 overflow-hidden border-0 backdrop-blur-sm">
+  //           <CardContent className="p-8 text-center">
+  //             <h2 className="mb-4 text-2xl font-bold">
+  //               Nenhuma barbearia encontrada
+  //             </h2>
+  //             <p className="text-muted-foreground mb-6">
+  //               Tente ajustar os filtros ou buscar por outros termos.
+  //             </p>
+  //             <Button asChild>
+  //               <Link href="/">Voltar ao Início</Link>
+  //             </Button>
+  //           </CardContent>
+  //         </Card>
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
   return (
     <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
@@ -135,80 +135,84 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
               </Card>
             </div>
 
-            {/* Stats and Quick Filters */}
-            <div className="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-6">
-              <Card className="from-primary/10 to-primary/5 border-primary/20 hover:from-primary/15 hover:to-primary/10 group bg-gradient-to-br backdrop-blur-sm transition-all duration-300">
-                <CardContent className="p-4 lg:p-6">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-primary/20 group-hover:bg-primary/30 rounded-xl p-3 transition-colors">
-                      <SearchIcon className="text-primary h-5 w-5 lg:h-6 lg:w-6" />
-                    </div>
-                    <div>
-                      <p className="text-primary text-2xl font-bold lg:text-3xl">
-                        {totalResults}
-                      </p>
-                      <p className="text-muted-foreground text-sm font-medium">
-                        Barbearias
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            {barbershops.length > 0 && (
+              <>
+                {/* Stats and Quick Filters */}
+                <div className="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-6">
+                  <Card className="from-primary/10 to-primary/5 border-primary/20 hover:from-primary/15 hover:to-primary/10 group bg-gradient-to-br backdrop-blur-sm transition-all duration-300">
+                    <CardContent className="p-4 lg:p-6">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-primary/20 group-hover:bg-primary/30 rounded-xl p-3 transition-colors">
+                          <SearchIcon className="text-primary h-5 w-5 lg:h-6 lg:w-6" />
+                        </div>
+                        <div>
+                          <p className="text-primary text-2xl font-bold lg:text-3xl">
+                            {totalResults}
+                          </p>
+                          <p className="text-muted-foreground text-sm font-medium">
+                            Barbearias
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
 
-              <Card className="group border-yellow-500/20 bg-gradient-to-br from-yellow-500/10 to-yellow-500/5 backdrop-blur-sm transition-all duration-300 hover:from-yellow-500/15 hover:to-yellow-500/10">
-                <CardContent className="p-4 lg:p-6">
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-xl bg-yellow-500/20 p-3 transition-colors group-hover:bg-yellow-500/30">
-                      <StarIcon className="h-5 w-5 text-yellow-500 lg:h-6 lg:w-6" />
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-yellow-500 lg:text-3xl">
-                        4.8
-                      </p>
-                      <p className="text-muted-foreground text-sm font-medium">
-                        Avaliação
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  <Card className="group border-yellow-500/20 bg-gradient-to-br from-yellow-500/10 to-yellow-500/5 backdrop-blur-sm transition-all duration-300 hover:from-yellow-500/15 hover:to-yellow-500/10">
+                    <CardContent className="p-4 lg:p-6">
+                      <div className="flex items-center gap-3">
+                        <div className="rounded-xl bg-yellow-500/20 p-3 transition-colors group-hover:bg-yellow-500/30">
+                          <StarIcon className="h-5 w-5 text-yellow-500 lg:h-6 lg:w-6" />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-yellow-500 lg:text-3xl">
+                            4.8
+                          </p>
+                          <p className="text-muted-foreground text-sm font-medium">
+                            Avaliação
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
 
-              <Card className="group border-green-500/20 bg-gradient-to-br from-green-500/10 to-green-500/5 backdrop-blur-sm transition-all duration-300 hover:from-green-500/15 hover:to-green-500/10">
-                <CardContent className="p-4 lg:p-6">
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-xl bg-green-500/20 p-3 transition-colors group-hover:bg-green-500/30">
-                      <MapPinIcon className="h-5 w-5 text-green-500 lg:h-6 lg:w-6" />
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-green-500 lg:text-3xl">
-                        5
-                      </p>
-                      <p className="text-muted-foreground text-sm font-medium">
-                        Regiões
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  <Card className="group border-green-500/20 bg-gradient-to-br from-green-500/10 to-green-500/5 backdrop-blur-sm transition-all duration-300 hover:from-green-500/15 hover:to-green-500/10">
+                    <CardContent className="p-4 lg:p-6">
+                      <div className="flex items-center gap-3">
+                        <div className="rounded-xl bg-green-500/20 p-3 transition-colors group-hover:bg-green-500/30">
+                          <MapPinIcon className="h-5 w-5 text-green-500 lg:h-6 lg:w-6" />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-green-500 lg:text-3xl">
+                            5
+                          </p>
+                          <p className="text-muted-foreground text-sm font-medium">
+                            Regiões
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
 
-              <Card className="group border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-blue-500/5 backdrop-blur-sm transition-all duration-300 hover:from-blue-500/15 hover:to-blue-500/10">
-                <CardContent className="p-4 lg:p-6">
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-xl bg-blue-500/20 p-3 transition-colors group-hover:bg-blue-500/30">
-                      <TrendingUpIcon className="h-5 w-5 text-blue-500 lg:h-6 lg:w-6" />
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-blue-500 lg:text-3xl">
-                        98%
-                      </p>
-                      <p className="text-muted-foreground text-sm font-medium">
-                        Satisfação
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                  <Card className="group border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-blue-500/5 backdrop-blur-sm transition-all duration-300 hover:from-blue-500/15 hover:to-blue-500/10">
+                    <CardContent className="p-4 lg:p-6">
+                      <div className="flex items-center gap-3">
+                        <div className="rounded-xl bg-blue-500/20 p-3 transition-colors group-hover:bg-blue-500/30">
+                          <TrendingUpIcon className="h-5 w-5 text-blue-500 lg:h-6 lg:w-6" />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-blue-500 lg:text-3xl">
+                            98%
+                          </p>
+                          <p className="text-muted-foreground text-sm font-medium">
+                            Satisfação
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Results Section */}
