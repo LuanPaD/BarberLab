@@ -8,6 +8,7 @@ import AuthProvider from "./_providers/auth"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://barber-lab.vercel.app/"),
   title: "Barber Lab - Sistema para Barbearias | Agendamento Online",
   description:
     "Barber Lab é o sistema ideal para barbearias. Agende horários online, encontre barbearias próximas e gerencie seus agendamentos facilmente.",
