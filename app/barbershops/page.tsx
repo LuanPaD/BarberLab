@@ -24,7 +24,9 @@ interface BarbershopsPageProps {
   }
 }
 
-const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
+export default async function BarbershopsPage({
+  searchParams,
+}: BarbershopsPageProps) {
   searchParams = await sanitizeSearchParams(searchParams)
 
   const barbershops = await getBarbershopsBySearchParams(searchParams)
@@ -35,39 +37,16 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
     "todas as barbearias"
   const totalResults = barbershops.length
 
-  // if (barbershops.length === 0 && searchTerm === "todas as barbearias") {
-  //   return (
-  //     <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
-  //       <Header />
-  //       <div className="mx-auto max-w-7xl p-5 lg:px-8 lg:py-12">
-  //         <Card className="bg-card/30 overflow-hidden border-0 backdrop-blur-sm">
-  //           <CardContent className="p-8 text-center">
-  //             <h2 className="mb-4 text-2xl font-bold">
-  //               Nenhuma barbearia encontrada
-  //             </h2>
-  //             <p className="text-muted-foreground mb-6">
-  //               Tente ajustar os filtros ou buscar por outros termos.
-  //             </p>
-  //             <Button asChild>
-  //               <Link href="/">Voltar ao Início</Link>
-  //             </Button>
-  //           </CardContent>
-  //         </Card>
-  //       </div>
-  //     </div>
-  //   )
-  // }
-
   return (
     <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
       <Header />
 
-      {/* Main content with responsive container */}
+      {/* Conteúdo principal */}
       <div className="mx-auto max-w-7xl">
         <div className="p-5 lg:px-8 lg:py-12">
-          {/* Enhanced Hero Section */}
+          {/* Seção Hero */}
           <div className="mb-8 lg:mb-16">
-            {/* Header with breadcrumb and stats */}
+            {/* Cabeçalho e estatísticas */}
             <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
               <div className="space-y-2 lg:space-y-4">
                 <div className="text-muted-foreground flex items-center gap-2 text-sm">
@@ -95,7 +74,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
                 </div>
               </div>
 
-              {/* Desktop action buttons */}
+              {/* Botões de ação no desktop */}
               <div className="hidden lg:flex lg:items-center lg:gap-4">
                 <Button variant="outline" className="gap-2">
                   <FilterIcon className="h-4 w-4" />
@@ -116,7 +95,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
               </div>
             </div>
 
-            {/* Enhanced Search Section */}
+            {/* Seção de busca */}
             <div className="mb-8 lg:mb-12">
               <Card className="bg-card/30 overflow-hidden border-0 backdrop-blur-sm">
                 <CardContent className="p-6 lg:p-8">
@@ -137,7 +116,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
 
             {barbershops.length > 0 && (
               <>
-                {/* Stats and Quick Filters */}
+                {/* Estatísticas e filtros rápidos */}
                 <div className="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-6">
                   <Card className="from-primary/10 to-primary/5 border-primary/20 hover:from-primary/15 hover:to-primary/10 group bg-gradient-to-br backdrop-blur-sm transition-all duration-300">
                     <CardContent className="p-4 lg:p-6">
@@ -215,9 +194,9 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
             )}
           </div>
 
-          {/* Results Section */}
+          {/* Seção de resultados */}
           <div className="space-y-6 lg:space-y-8">
-            {/* Results Header */}
+            {/* Cabeçalho dos resultados */}
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <h2 className="text-lg font-semibold lg:text-2xl">
@@ -231,7 +210,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
                 </p>
               </div>
 
-              {/* Mobile filter buttons */}
+              {/* Botões de filtro no mobile */}
               <div className="flex items-center gap-2 lg:hidden">
                 <Button variant="outline" size="sm" className="gap-1">
                   <FilterIcon className="h-3 w-3" />
@@ -244,7 +223,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
               </div>
             </div>
 
-            {/* Enhanced Empty State */}
+            {/* Estado vazio */}
             {barbershops.length === 0 && (
               <Card className="from-card/50 to-card/30 overflow-hidden border-0 bg-gradient-to-br backdrop-blur-sm">
                 <CardContent className="relative p-8 text-center lg:p-16">
@@ -278,7 +257,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
               </Card>
             )}
 
-            {/* Enhanced Results Grid */}
+            {/* Grid de resultados */}
             {barbershops.length > 0 && (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                 {barbershops.map((barbershop) => (
@@ -289,7 +268,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
               </div>
             )}
 
-            {/* Load More Section */}
+            {/* Seção Carregar Mais */}
             {barbershops.length > 0 && (
               <div className="mt-12 text-center lg:mt-16">
                 <Card className="bg-card/30 inline-block border-0 backdrop-blur-sm">
@@ -313,7 +292,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
               </div>
             )}
 
-            {/* Call to Action */}
+            {/* Chamada para ação */}
             <div className="mt-16 lg:mt-24">
               <Card className="from-primary/10 to-primary/5 border-primary/20 overflow-hidden bg-gradient-to-br backdrop-blur-sm">
                 <CardContent className="relative p-8 text-center lg:p-12">
@@ -366,5 +345,3 @@ const sanitizeSearchParams = async (
     ...(tag === "recomendados" || tag === "popular" ? { tag } : {}),
   }
 }
-
-export default BarbershopsPage
