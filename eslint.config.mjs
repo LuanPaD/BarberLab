@@ -16,7 +16,6 @@ export default defineConfig([{
    extends: compat.extends(
       "next/core-web-vitals",
       "next/typescript",
-      "plugin:prettier/recommended"
     ),
 
     rules: {

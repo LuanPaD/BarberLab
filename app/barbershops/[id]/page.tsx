@@ -28,16 +28,10 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card"
 
-interface BarbershopPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default async function BarbershopPage({ params }: BarbershopPageProps) {
-  params = params instanceof Promise ? await params : params
-  const barbershop = await getBarbershopsById(params.id)
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function BarbershopPage({ params }: any) {
+  const { id } = await params
+  const barbershop = await getBarbershopsById(id)
   if (!barbershop) {
     return notFound()
   }

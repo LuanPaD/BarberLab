@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link"
 import BarbershopItem from "../_components/barbershop-item"
 import Header from "../_components/header"
@@ -17,16 +18,15 @@ import {
 } from "lucide-react"
 
 interface BarbershopsPageProps {
-  searchParams: {
+  searchParams?: {
     title?: string
     service?: string
-    tag?: "recomendados" | "popular"
+    tag?: string
+    [key: string]: any
   }
 }
 
-export default async function BarbershopsPage({
-  searchParams,
-}: BarbershopsPageProps) {
+export default async function BarbershopsPage({ searchParams }: any) {
   searchParams = await sanitizeSearchParams(searchParams)
 
   const barbershops = await getBarbershopsBySearchParams(searchParams)
