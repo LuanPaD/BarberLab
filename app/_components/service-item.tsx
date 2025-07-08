@@ -166,9 +166,9 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
       <Card>
         <CardContent className="flex items-center gap-3 p-3">
           {/* IMAGE */}
-          <div className="relative max-h-[110px] min-h-[110px] min-w-[110px] max-w-[110px]">
+          <div className="relative max-h-[110px] min-h-[110px] max-w-[110px] min-w-[110px]">
             <Image
-              alt={service.name}
+              alt={service.name || "Serviço"}
               src={service.imageUrl}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -176,33 +176,38 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             />
           </div>
           {/* DIREITA */}
-          <div className="space-y-2">
+          <div className="flex flex-1 flex-col space-y-2">
             <h3 className="text-sm font-semibold">{service.name}</h3>
             <p className="text-sm text-gray-400">{service.description}</p>
             {/* PREÇO E BOTÃO */}
             <div className="flex items-center justify-between">
-              <p className="text-sm font-bold text-primary">
+              <p className="text-primary text-sm font-bold">
                 {Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
                 }).format(Number(service.price))}
               </p>
-
+              <div className="flex-1" />
               <Sheet
                 open={bookingSheetIsOpen}
-                onOpenChange={handleBookingSheetOpenChange}
+                onOpenChange={(open) => {
+                  if (!open) handleBookingSheetOpenChange()
+                }}
               >
                 <Button
                   variant="secondary"
                   size="sm"
                   onClick={handleBookingClick}
+                  className="ml-auto px-4 py-2 text-xs sm:text-sm md:text-base lg:px-6 lg:py-3"
                 >
                   Reservar
                 </Button>
 
                 <SheetContent className="px-0" aria-describedby={undefined}>
-                  <SheetHeader>
-                    <SheetTitle>Fazer Reserva</SheetTitle>
+                  <SheetHeader className="flex items-center">
+                    <SheetTitle className="flex items-center">
+                      Fazer Reserva
+                    </SheetTitle>
                   </SheetHeader>
 
                   <div className="border-b border-solid px-5 py-5">
