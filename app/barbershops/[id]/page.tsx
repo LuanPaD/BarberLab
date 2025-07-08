@@ -34,7 +34,7 @@ interface BarbershopPageProps {
   }
 }
 
-const BarbershopPage = async ({ params }: BarbershopPageProps) => {
+export default async function BarbershopPage({ params }: BarbershopPageProps) {
   params = params instanceof Promise ? await params : params
   const barbershop = await getBarbershopsById(params.id)
 
@@ -338,5 +338,3 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
     </div>
   )
 }
-
-export default BarbershopPage

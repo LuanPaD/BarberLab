@@ -34,10 +34,10 @@ const Home = async () => {
       {/* cabeçalho */}
       <Header />
 
-      {/* Conteúdo principal com container responsivo */}
+      {/* Conteúdo principal */}
       <div className="mx-auto max-w-7xl">
         <div className="p-5 lg:px-8 lg:py-12">
-          {/* Seção hero - layout desktop aprimorado */}
+          {/* Seção hero - layout desktop */}
           <div className="lg:grid lg:min-h-[500px] lg:grid-cols-12 lg:items-center lg:gap-12">
             {/* Coluna esquerda - Texto e Busca */}
             <div className="lg:col-span-7 lg:pr-8">
