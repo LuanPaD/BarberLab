@@ -150,7 +150,7 @@ const Home = async () => {
                 {/* Mobile image */}
                 <Image
                   alt="Agende nos melhores com Barber Lab"
-                  src="/banner-01.png"
+                  src="/mobile-banner.png"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   priority

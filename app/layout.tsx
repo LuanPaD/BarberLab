@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Barber Lab",
     images: [
       {
-        url: "/banner-01.png",
+        url: "/mobile-banner.png",
         width: 1200,
         height: 630,
         alt: "Barber Lab - Sistema para Barbearia",
