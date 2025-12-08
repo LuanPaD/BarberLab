@@ -38,7 +38,7 @@ export default async function BarbershopsPage({ searchParams }: any) {
   const totalResults = barbershops.length
 
   return (
-    <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
+    <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
       <Header />
 
       {/* Conteúdo principal */}
@@ -64,7 +64,7 @@ export default async function BarbershopsPage({ searchParams }: any) {
                     <SearchIcon className="text-primary h-6 w-6 lg:h-8 lg:w-8" />
                   </div>
                   <div>
-                    <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-2xl font-bold lg:text-3xl lg:font-extrabold">
+                    <h1 className="from-foreground to-foreground/70 bg-linear-to-r bg-clip-text text-2xl font-bold lg:text-3xl lg:font-extrabold">
                       Encontre sua Barbearia
                     </h1>
                     <p className="text-muted-foreground mt-1">
@@ -118,7 +118,7 @@ export default async function BarbershopsPage({ searchParams }: any) {
               <>
                 {/* Estatísticas e filtros rápidos */}
                 <div className="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-6">
-                  <Card className="from-primary/10 to-primary/5 border-primary/20 hover:from-primary/15 hover:to-primary/10 group bg-gradient-to-br backdrop-blur-sm transition-all duration-300">
+                  <Card className="from-primary/10 to-primary/5 border-primary/20 hover:from-primary/15 hover:to-primary/10 group bg-linear-to-br backdrop-blur-sm transition-all duration-300">
                     <CardContent className="p-4 lg:p-6">
                       <div className="flex items-center gap-3">
                         <div className="bg-primary/20 group-hover:bg-primary/30 rounded-xl p-3 transition-colors">
@@ -136,7 +136,7 @@ export default async function BarbershopsPage({ searchParams }: any) {
                     </CardContent>
                   </Card>
 
-                  <Card className="group border-yellow-500/20 bg-gradient-to-br from-yellow-500/10 to-yellow-500/5 backdrop-blur-sm transition-all duration-300 hover:from-yellow-500/15 hover:to-yellow-500/10">
+                  <Card className="group border-yellow-500/20 bg-linear-to-br from-yellow-500/10 to-yellow-500/5 backdrop-blur-sm transition-all duration-300 hover:from-yellow-500/15 hover:to-yellow-500/10">
                     <CardContent className="p-4 lg:p-6">
                       <div className="flex items-center gap-3">
                         <div className="rounded-xl bg-yellow-500/20 p-3 transition-colors group-hover:bg-yellow-500/30">
@@ -154,7 +154,7 @@ export default async function BarbershopsPage({ searchParams }: any) {
                     </CardContent>
                   </Card>
 
-                  <Card className="group border-green-500/20 bg-gradient-to-br from-green-500/10 to-green-500/5 backdrop-blur-sm transition-all duration-300 hover:from-green-500/15 hover:to-green-500/10">
+                  <Card className="group border-green-500/20 bg-linear-to-br from-green-500/10 to-green-500/5 backdrop-blur-sm transition-all duration-300 hover:from-green-500/15 hover:to-green-500/10">
                     <CardContent className="p-4 lg:p-6">
                       <div className="flex items-center gap-3">
                         <div className="rounded-xl bg-green-500/20 p-3 transition-colors group-hover:bg-green-500/30">
@@ -172,7 +172,7 @@ export default async function BarbershopsPage({ searchParams }: any) {
                     </CardContent>
                   </Card>
 
-                  <Card className="group border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-blue-500/5 backdrop-blur-sm transition-all duration-300 hover:from-blue-500/15 hover:to-blue-500/10">
+                  <Card className="group border-blue-500/20 bg-linear-to-br from-blue-500/10 to-blue-500/5 backdrop-blur-sm transition-all duration-300 hover:from-blue-500/15 hover:to-blue-500/10">
                     <CardContent className="p-4 lg:p-6">
                       <div className="flex items-center gap-3">
                         <div className="rounded-xl bg-blue-500/20 p-3 transition-colors group-hover:bg-blue-500/30">
@@ -225,11 +225,11 @@ export default async function BarbershopsPage({ searchParams }: any) {
 
             {/* Estado vazio */}
             {barbershops.length === 0 && (
-              <Card className="from-card/50 to-card/30 overflow-hidden border-0 bg-gradient-to-br backdrop-blur-sm">
+              <Card className="from-card/50 to-card/30 overflow-hidden border-0 bg-linear-to-br backdrop-blur-sm">
                 <CardContent className="relative p-8 text-center lg:p-16">
-                  <div className="from-primary/5 absolute inset-0 bg-gradient-to-br to-transparent"></div>
+                  <div className="from-primary/5 absolute inset-0 bg-linear-to-br to-transparent"></div>
                   <div className="relative z-10">
-                    <div className="from-primary/20 to-primary/10 mx-auto mb-8 flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br shadow-lg">
+                    <div className="from-primary/20 to-primary/10 mx-auto mb-8 flex h-32 w-32 items-center justify-center rounded-full bg-linear-to-br shadow-lg">
                       <SearchIcon className="text-primary h-16 w-16" />
                     </div>
                     <h3 className="mb-4 text-2xl font-bold lg:text-3xl">
@@ -294,9 +294,9 @@ export default async function BarbershopsPage({ searchParams }: any) {
 
             {/* Chamada para ação */}
             <div className="mt-16 lg:mt-24">
-              <Card className="from-primary/10 to-primary/5 border-primary/20 overflow-hidden bg-gradient-to-br backdrop-blur-sm">
+              <Card className="from-primary/10 to-primary/5 border-primary/20 overflow-hidden bg-linear-to-br backdrop-blur-sm">
                 <CardContent className="relative p-8 text-center lg:p-12">
-                  <div className="from-primary/5 absolute inset-0 bg-gradient-to-br to-transparent"></div>
+                  <div className="from-primary/5 absolute inset-0 bg-linear-to-br to-transparent"></div>
                   <div className="relative z-10">
                     <h3 className="mb-4 text-2xl font-bold lg:text-3xl">
                       Não encontrou o que procurava?

@@ -17,7 +17,7 @@ interface HeaderProps {
 
 const referenciaDoComponenteInput = searchInputRef
 
-const Header: React.FC<HeaderProps> = ({ specialSearchElements = [] }) => {
+const Header = ({ specialSearchElements = [] }: HeaderProps) => {
   const [searchTerm, setSearchTerm] = React.useState("")
   const [showSearch, setShowSearch] = React.useState(false)
 

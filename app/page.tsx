@@ -30,7 +30,7 @@ const Home = async () => {
   const confirmedBookings = await getConfirmedBookings()
 
   return (
-    <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
+    <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
       {/* cabeçalho */}
       <Header />
 
@@ -44,7 +44,7 @@ const Home = async () => {
               {/* Seção de boas-vindas */}
               <div className="space-y-4 lg:space-y-6">
                 <div className="space-y-2">
-                  <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-xl font-bold lg:text-4xl lg:leading-tight lg:font-extrabold">
+                  <h1 className="from-foreground to-foreground/70 bg-linear-to-r bg-clip-text text-xl font-bold lg:text-4xl lg:leading-tight lg:font-extrabold">
                     Olá, {session?.user ? session.user.name : "bem vindo"}!
                   </h1>
                   <div className="text-muted-foreground flex items-center gap-2 lg:text-xl">
@@ -168,7 +168,7 @@ const Home = async () => {
                 />
 
                 {/* Sobreposição com gradiente */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent lg:opacity-80" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent lg:opacity-80" />
 
                 {/* Conteúdo sobreposto (desktop) */}
                 <div className="absolute right-6 bottom-6 left-6 hidden text-white lg:block">

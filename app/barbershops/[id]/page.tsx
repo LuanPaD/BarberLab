@@ -47,7 +47,7 @@ export default async function BarbershopPage({ params }: any) {
   }
 
   return (
-    <div className="from-background via-background to-muted/20 min-h-screen bg-gradient-to-br">
+    <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
       {/* Imagem principal (Hero) */}
       <div className="relative h-[300px] w-full lg:h-[500px]">
         <Image
@@ -55,13 +55,13 @@ export default async function BarbershopPage({ params }: any) {
           src={barbershop?.imageUrl}
           fill
           sizes="100vw"
-          quality={100}
+          quality={75}
           className="object-cover"
           priority={true}
         />
 
         {/* Sobreposição de gradiente */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-black/20" />
 
         {/* Botões de navegação */}
         <div className="absolute top-4 left-4 lg:top-8 lg:left-8">
@@ -229,7 +229,7 @@ export default async function BarbershopPage({ params }: any) {
             <div className="mt-8 space-y-6 lg:col-span-4 lg:mt-0">
               {/* Estatísticas rápidas - Desktop */}
               <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4">
-                <Card className="border-yellow-500/20 bg-gradient-to-br from-yellow-500/10 to-yellow-500/5 backdrop-blur-sm">
+                <Card className="border-yellow-500/20 bg-linear-to-br from-yellow-500/10 to-yellow-500/5 backdrop-blur-sm">
                   <CardContent className="p-6 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <div className="rounded-xl bg-yellow-500/20 p-3">
@@ -244,7 +244,7 @@ export default async function BarbershopPage({ params }: any) {
                     </div>
                   </CardContent>
                 </Card>
-                <Card className="border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-blue-500/5 backdrop-blur-sm">
+                <Card className="border-blue-500/20 bg-linear-to-br from-blue-500/10 to-blue-500/5 backdrop-blur-sm">
                   <CardContent className="p-6 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <div className="rounded-xl bg-blue-500/20 p-3">
@@ -314,7 +314,7 @@ export default async function BarbershopPage({ params }: any) {
               </Card>
 
               {/* Botão de CTA */}
-              <Card className="from-primary/10 to-primary/5 border-primary/20 bg-gradient-to-br backdrop-blur-sm">
+              <Card className="from-primary/10 to-primary/5 border-primary/20 bg-linear-to-br backdrop-blur-sm">
                 <CardContent className="p-6 text-center">
                   <h3 className="mb-2 flex items-center justify-center gap-2 text-lg font-semibold">
                     <CalendarIcon aria-hidden="true" />

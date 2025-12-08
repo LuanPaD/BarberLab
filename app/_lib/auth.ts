@@ -29,4 +29,11 @@ export const authOptions: AuthOptions = {
     },
   },
   secret: process.env.NEXT_AUTH_SECRET,
+  session: {
+    strategy: "database",
+  },
+  pages: {
+    signIn: "/",
+  },
+  debug: false,
 }
