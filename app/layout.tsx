@@ -5,6 +5,7 @@ import { Toaster } from "sonner"
 import Footer from "./_components/footer"
 import AuthProvider from "./_providers/auth"
 import ProgressProvider from "./_components/progress-bar"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -61,6 +62,7 @@ export default function RootLayout({
           </ProgressProvider>
         </AuthProvider>
         <Toaster />
+        <SpeedInsights />
       </body>
     </html>
   )
