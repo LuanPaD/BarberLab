@@ -3,43 +3,43 @@ import { PrismaPg } from "@prisma/adapter-pg"
 import { Pool } from "pg"
 
 declare global {
-  // eslint-disable-next-line no-var
+  // eslint-disable-next-line no-unused-vars
   var cachedPrisma: PrismaClient | undefined
+  // eslint-disable-next-line no-unused-vars
   var cachedPool: Pool | undefined
 }
 
-// Load DATABASE_URL from environment
-const connectionString = process.env.DATABASE_URL
+function createPrismaClient(): PrismaClient {
+  const connectionString = process.env.DATABASE_URL
 
-if (!connectionString) {
-  throw new Error(
-    "DATABASE_URL is not set. Please check your .env.local file."
-  )
-}
+  if (!connectionString) {
+    throw new Error(
+      "DATABASE_URL is not set. Please check your .env.local file.",
+    )
+  }
 
-// Create shared PostgreSQL pool
-if (!globalThis.cachedPool) {
-  globalThis.cachedPool = new Pool({ 
-    connectionString: connectionString,
-    ssl: {
-      rejectUnauthorized: false
-    }
-  })
-}
-export const pool = globalThis.cachedPool
+  if (!globalThis.cachedPool) {
+    globalThis.cachedPool = new Pool({
+      connectionString: connectionString,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    })
+  }
 
-// Create main Prisma client with PostgreSQL adapter
-let prisma: PrismaClient
-
-if (process.env.NODE_ENV === "production") {
-  const adapter = new PrismaPg(pool)
-  prisma = new PrismaClient({ adapter })
-} else {
   if (!globalThis.cachedPrisma) {
-    const adapter = new PrismaPg(pool)
+    const adapter = new PrismaPg(globalThis.cachedPool)
     globalThis.cachedPrisma = new PrismaClient({ adapter })
   }
-  prisma = globalThis.cachedPrisma!
+
+  return globalThis.cachedPrisma
 }
 
-export const db = prisma
+export const db = new Proxy({} as PrismaClient, {
+  get(target, prop) {
+    if (!globalThis.cachedPrisma) {
+      createPrismaClient()
+    }
+    return (globalThis.cachedPrisma as any)[prop]
+  },
+})
