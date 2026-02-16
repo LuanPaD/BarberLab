@@ -28,7 +28,6 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function BarbershopPage({ params }: any) {
   const { id } = await params
   const barbershop = await getBarbershopsById(id)
@@ -49,7 +48,7 @@ export default async function BarbershopPage({ params }: any) {
   return (
     <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
       {/* Imagem principal (Hero) */}
-      <div className="relative h-[300px] w-full lg:h-[500px]">
+      <div className="relative h-75 w-full lg:h-125">
         <Image
           alt={barbershop.name}
           src={barbershop?.imageUrl}

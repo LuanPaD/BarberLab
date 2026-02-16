@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link"
 import BarbershopItem from "../_components/barbershop-item"
 import Header from "../_components/header"

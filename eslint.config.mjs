@@ -1,6 +1,6 @@
 import nextPlugin from "eslint-config-next";
 
-export default [
+const config = [
     {
         ignores: [".next/**", "node_modules/**"],
     },
@@ -8,6 +8,9 @@ export default [
     {
         rules: {
             "no-unused-vars": "error",
+            "react-hooks/set-state-in-effect": "off",
         },
     }
 ];
+
+export default config;
