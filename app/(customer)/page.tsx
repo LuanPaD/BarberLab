@@ -203,10 +203,7 @@ const Home = async ({ searchParams }: HomeProps) => {
 
               <div className="flex gap-3 overflow-x-auto lg:grid lg:grid-cols-2 lg:gap-6 lg:overflow-visible xl:grid-cols-3 [&::-webkit-scrollbar]:hidden">
                 {confirmedBookings.map((booking) => (
-                  <BookingItem
-                    key={booking.id}
-                    booking={JSON.parse(JSON.stringify(booking))}
-                  />
+                  <BookingItem key={booking.id} booking={booking} />
                 ))}
               </div>
             </div>

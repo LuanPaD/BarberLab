@@ -1,8 +1,7 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { Toaster } from "sonner"
-import Footer from "./_components/footer"
+import { Toaster } from "./_components/ui/sonner"
 import AuthProvider from "./_providers/auth"
 import ProgressProvider from "./_components/progress-bar"
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -54,12 +53,7 @@ export default function RootLayout({
     <html lang="pt-br" className="dark">
       <body className={inter.className}>
         <AuthProvider>
-          <ProgressProvider>
-            <div className="flex h-full flex-col">
-              <div className="flex-1">{children}</div>
-              <Footer />
-            </div>
-          </ProgressProvider>
+          <ProgressProvider>{children}</ProgressProvider>
         </AuthProvider>
         <Toaster />
         <SpeedInsights />
