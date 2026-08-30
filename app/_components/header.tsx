@@ -10,44 +10,37 @@ import Link from "next/link"
 import UserMenu from "./user-menu"
 import { searchInputRef } from "./search"
 import React from "react"
-
-interface HeaderProps {
-  specialSearchElements?: { id: string; name: string }[]
-}
+import AdminPanelLink from "./admin-panel-link"
 
 const referenciaDoComponenteInput = searchInputRef
 
-const Header = ({ specialSearchElements = [] }: HeaderProps) => {
+/**
+ * Filtra na página os elementos marcados com `data-search-name`.
+ *
+ * A lista costumava chegar por prop do Server Component. Com muitos itens o
+ * payload da prop era quebrado em chunks e a árvore de `useId` divergia entre
+ * SSR e hidratação, trocando os ids do Radix (erro de hidratação em
+ * /bookings). Lendo do DOM não há prop, não há payload e nada quebra.
+ */
+const filterSearchableElements = (searchTerm: string) => {
+  const elements = document.querySelectorAll<HTMLElement>("[data-search-name]")
+
+  elements.forEach((element) => {
+    const name = element.dataset.searchName?.toLowerCase() ?? ""
+    element.classList.toggle(
+      "hidden",
+      searchTerm !== "" && !name.includes(searchTerm),
+    )
+  })
+}
+
+const Header = () => {
   const [searchTerm, setSearchTerm] = React.useState("")
   const [showSearch, setShowSearch] = React.useState(false)
 
-  const handleSpecialSearch = React.useCallback(
-    (searchTerm: string) => {
-      if (!specialSearchElements || specialSearchElements.length === 0) return
-
-      if (searchTerm === "") {
-        specialSearchElements.forEach((el) => {
-          document.getElementById(el.id)?.classList.remove("hidden")
-        })
-        return
-      }
-
-      specialSearchElements.forEach((el) => {
-        const element = document.getElementById(el.id)
-        if (element) {
-          element.classList.toggle(
-            "hidden",
-            !el.name.toLowerCase().includes(searchTerm),
-          )
-        }
-      })
-    },
-    [specialSearchElements],
-  )
-
   React.useEffect(() => {
-    handleSpecialSearch(searchTerm)
-  }, [searchTerm, handleSpecialSearch])
+    filterSearchableElements(searchTerm)
+  }, [searchTerm])
 
   const handleSearchClick = () => {
     const inputEncontradoNaPaginaAtual = referenciaDoComponenteInput.current
@@ -131,6 +124,8 @@ const Header = ({ specialSearchElements = [] }: HeaderProps) => {
               />
             )}
           </div>
+
+          <AdminPanelLink />
 
           <UserMenu />
 

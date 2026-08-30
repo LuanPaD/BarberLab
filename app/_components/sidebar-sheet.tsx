@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 import { signOut, useSession } from "next-auth/react"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import SignInDialog from "./sign-in-dialog"
+import AdminPanelLink from "./admin-panel-link"
 
 const SidebarSheet = () => {
   const { data } = useSession()
@@ -65,6 +66,9 @@ const SidebarSheet = () => {
             Agendamentos
           </Link>
         </Button>
+        {/* Sem SheetClose: o AdminPanelLink não repassa os props do Slot, e
+            a navegação para /dashboard já desmonta o sheet. */}
+        <AdminPanelLink className="w-full justify-start gap-2" />
       </div>
 
       <div className="flex flex-col gap-2 border-b border-solid py-5">
