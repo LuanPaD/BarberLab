@@ -1,6 +1,5 @@
 "use client"
 
-import { Prisma } from "@prisma/client"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import { Badge } from "./ui/badge"
 import { Card, CardContent } from "./ui/card"
@@ -32,28 +31,45 @@ import { deleteBooking } from "../_actions/delete-booking"
 import { toast } from "sonner"
 import { useState } from "react"
 import BookingSummary from "./booking-summary"
+import WhatsAppButton from "./whatsapp-button"
+import { buildCustomerConfirmationMessage } from "../_lib/whatsapp"
+import { useSession } from "next-auth/react"
+
+export interface BookingItemData {
+  id: string
+  date: Date
+  service: {
+    name: string
+    price: number
+    barbershop: {
+      name: string
+      address: string
+      imageUrl: string
+      phones: string[]
+    }
+  }
+}
 
 interface BookingItemProps {
-  booking: Prisma.BookingGetPayload<{
-    include: {
-      service: {
-        include: {
-          barbershop: true
-        }
-      }
-    }
-  }>
+  booking: BookingItemData
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const { data: session } = useSession()
   const {
     service: { barbershop },
   } = booking
   const isConfirmed = isFuture(booking.date)
   const handleCancelBooking = async () => {
     try {
-      await deleteBooking(booking.id)
+      const result = await deleteBooking(booking.id)
+
+      if (!result.ok) {
+        toast.error(result.error)
+        return
+      }
+
       setIsSheetOpen(false)
       toast.success("Reserva cancelada com sucesso!")
     } catch (error) {
@@ -73,6 +89,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
       <SheetTrigger className="w-full min-w-[90%]">
         <Card
           id={booking.id}
+          data-search-name={barbershop.name}
           className="hover:bg-card/20 min-w-[90%] transition-shadow hover:scale-[1.03] hover:cursor-pointer hover:shadow-md"
         >
           <CardContent className="flex justify-between p-0">
@@ -156,6 +173,20 @@ const BookingItem = ({ booking }: BookingItemProps) => {
               <PhoneItem key={index} phone={phone} />
             ))}
           </div>
+
+          {isConfirmed && (
+            <WhatsAppButton
+              className="mt-6 w-full"
+              phone={barbershop.phones[0]}
+              message={buildCustomerConfirmationMessage({
+                serviceName: booking.service.name,
+                date: booking.date,
+                barbershopName: barbershop.name,
+                customerName: session?.user?.name,
+                price: Number(booking.service.price),
+              })}
+            />
+          )}
         </div>
         <SheetFooter className="mt-6">
           <div className="grid grid-cols-2 items-center gap-3">

@@ -9,17 +9,28 @@ export const getConfirmedBookings = async () => {
   if (!session?.user) {
     return []
   }
-  return db.booking.findMany({
+  const bookings = await db.booking.findMany({
     where: {
       userId: (session.user as { id: string }).id,
       date: {
         gte: new Date(),
       },
     },
-    include: {
+    select: {
+      id: true,
+      date: true,
       service: {
-        include: {
-          barbershop: true,
+        select: {
+          name: true,
+          price: true,
+          barbershop: {
+            select: {
+              name: true,
+              address: true,
+              imageUrl: true,
+              phones: true,
+            },
+          },
         },
       },
     },
@@ -27,4 +38,30 @@ export const getConfirmedBookings = async () => {
       date: "asc",
     },
   })
+
+  return bookings.map(toBookingItem)
 }
+
+/** Só o que o BookingItem desenha — o resto viraria payload à toa. */
+const toBookingItem = (booking: {
+  id: string
+  date: Date
+  service: {
+    name: string
+    price: unknown
+    barbershop: {
+      name: string
+      address: string
+      imageUrl: string
+      phones: string[]
+    }
+  }
+}) => ({
+  id: booking.id,
+  date: booking.date,
+  service: {
+    name: booking.service.name,
+    price: Number(booking.service.price),
+    barbershop: booking.service.barbershop,
+  },
+})

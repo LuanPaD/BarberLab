@@ -1,6 +1,6 @@
 "use client"
 
-import { Barbershop, BarbershopService, Booking } from "@prisma/client"
+import { Barbershop, BarbershopService } from "@prisma/client"
 import Image from "next/image"
 import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
@@ -14,19 +14,25 @@ import {
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { useEffect, useMemo, useState } from "react"
-import { isPast, isToday, set } from "date-fns"
+import { addMinutes, isPast, set } from "date-fns"
 import { createBooking } from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
-import { getBookings } from "../_actions/get-bookings"
+import {
+  getUnavailableIntervals,
+  type UnavailableInterval,
+} from "../_actions/get-bookings"
 import { Dialog, DialogContent } from "./ui/dialog"
 import SignInDialog from "./sign-in-dialog"
 import BookingSummary from "./booking-summary"
-import { useRouter } from "next/navigation"
+import {
+  buildCustomerConfirmationMessage,
+  buildWhatsAppUrl,
+} from "../_lib/whatsapp"
 
 interface ServiceItemProps {
   service: BarbershopService
-  barbershop: Pick<Barbershop, "name">
+  barbershop: Pick<Barbershop, "name" | "phones">
 }
 
 const TIME_LIST = [
@@ -54,51 +60,60 @@ const TIME_LIST = [
 ]
 
 interface GetTimeListProps {
-  bookings: Booking[]
+  intervals: UnavailableInterval[]
   selectedDay: Date
+  durationMinutes: number
 }
 
-const getTimeList = ({ bookings, selectedDay }: GetTimeListProps) => {
+/**
+ * Um horário só aparece se o atendimento inteiro couber nele: comparamos
+ * [início, início + duração) com as faixas ocupadas — reservas e bloqueios.
+ * Antes bastava não haver reserva começando naquele minuto exato.
+ */
+const getTimeList = ({
+  intervals,
+  selectedDay,
+  durationMinutes,
+}: GetTimeListProps) => {
   return TIME_LIST.filter((time) => {
-    const hour = Number(time.split(":")[0])
-    const minutes = Number(time.split(":")[1])
+    const [hours, minutes] = time.split(":").map(Number)
+    const startsAt = set(selectedDay, {
+      hours,
+      minutes,
+      seconds: 0,
+      milliseconds: 0,
+    })
 
-    const timeIsOnThePast = isPast(set(new Date(), { hours: hour, minutes }))
-    if (timeIsOnThePast && isToday(selectedDay)) {
-      return false
-    }
+    if (isPast(startsAt)) return false
 
-    const hasBookingOnCurrentTime = bookings.some(
-      (booking) =>
-        booking.date.getHours() === hour &&
-        booking.date.getMinutes() === minutes,
+    const endsAt = addMinutes(startsAt, durationMinutes)
+
+    return !intervals.some(
+      (interval) =>
+        startsAt < new Date(interval.endsAt) &&
+        endsAt > new Date(interval.startsAt),
     )
-    if (hasBookingOnCurrentTime) {
-      return false
-    }
-    return true
   })
 }
 
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const { data } = useSession()
-  const router = useRouter()
   const [signInDialogIsOpen, setSignInDialogIsOpen] = useState(false)
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined,
   )
-  const [dayBookings, setDayBookings] = useState<Booking[]>([])
+  const [unavailable, setUnavailable] = useState<UnavailableInterval[]>([])
   const [bookingSheetIsOpen, setBookingSheetIsOpen] = useState(false)
 
   useEffect(() => {
     const fetch = async () => {
       if (!selectedDay) return
-      const bookings = await getBookings({
+      const intervals = await getUnavailableIntervals({
         date: selectedDay,
         serviceId: service.id,
       })
-      setDayBookings(bookings)
+      setUnavailable(intervals)
     }
     fetch()
   }, [selectedDay, service.id])
@@ -121,7 +136,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const handleBookingSheetOpenChange = () => {
     setSelectedDay(undefined)
     setSelectedTime(undefined)
-    setDayBookings([])
+    setUnavailable([])
     setBookingSheetIsOpen(false)
   }
 
@@ -136,15 +151,38 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const handleCreateBooking = async () => {
     try {
       if (!selectedDate) return
-      await createBooking({
+      const result = await createBooking({
         serviceId: service.id,
         date: selectedDate,
       })
+
+      if (!result.ok) {
+        toast.error(result.error)
+        return
+      }
+
       handleBookingSheetOpenChange()
+
+      const whatsappUrl = buildWhatsAppUrl({
+        phone: barbershop.phones?.[0],
+        message: buildCustomerConfirmationMessage({
+          serviceName: service.name,
+          date: selectedDate,
+          barbershopName: barbershop.name,
+          customerName: data?.user?.name,
+          price: Number(service.price),
+        }),
+      })
+
+      // Uma ação só: com duas o toast do sonner espreme a coluna de texto.
+      // "Ver agendamentos" continua acessível pelo menu, e a reserva também
+      // traz o botão de WhatsApp na tela de detalhes.
       toast.success("Reserva criada com sucesso!", {
+        description: "Confirme com a barbearia pelo WhatsApp.",
+        duration: 10000,
         action: {
-          label: "Ver agendamentos",
-          onClick: () => router.push("/bookings"),
+          label: "Confirmar",
+          onClick: () => window.open(whatsappUrl, "_blank"),
         },
       })
     } catch (error) {
@@ -156,10 +194,11 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const timeList = useMemo(() => {
     if (!selectedDay) return []
     return getTimeList({
-      bookings: dayBookings,
+      intervals: unavailable,
       selectedDay,
+      durationMinutes: service.durationMinutes,
     })
-  }, [dayBookings, selectedDay])
+  }, [unavailable, selectedDay, service.durationMinutes])
 
   return (
     <>
