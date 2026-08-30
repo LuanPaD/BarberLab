@@ -1,10 +1,12 @@
 import { format } from "date-fns"
 import { Card, CardContent } from "./ui/card"
-import { Barbershop, BarbershopService } from "@prisma/client"
+import { Barbershop, Prisma } from "@prisma/client"
+
+type Decimal = Prisma.Decimal
 import { ptBR } from "date-fns/locale"
 
 interface BookingSummaryProps {
-  service: Pick<BarbershopService, "name" | "price">
+  service: { name: string; price: number | Decimal }
   barbershop: Pick<Barbershop, "name">
   selectedDate: Date
 }
