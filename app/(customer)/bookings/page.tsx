@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth"
 import Header from "@/app/_components/header"
 import { authOptions } from "@/app/_lib/auth"
 import BookingItem from "@/app/_components/booking-item"
+import BookingHistory from "../_components/booking-history"
 import { getConfirmedBookings } from "@/app/_data/get-confirmed-bookings"
 import { getConcludedBookings } from "@/app/_data/get-concluded-bookings"
 import {
@@ -60,16 +61,6 @@ const Bookings = async () => {
   )
 
   const allBookings: Booking[] = [...confirmedBookings, ...concludedBookings]
-  const barbershopsMap = new Map<string, { id: string; name: string }>()
-
-  allBookings.forEach((booking: Booking) => {
-    if (booking.service.barbershop) {
-      barbershopsMap.set(booking.id, {
-        id: booking.id,
-        name: booking.service.barbershop.name,
-      })
-    }
-  })
 
   const uniqueBarbershops = new Set(
     allBookings.map((b) => b.service.barbershop?.name).filter(Boolean),
@@ -88,11 +79,9 @@ const Bookings = async () => {
     ([, a], [, b]) => b - a,
   )[0]
 
-  const barbershops = Array.from(barbershopsMap.values())
-
   return (
     <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
-      <Header specialSearchElements={barbershops} />
+      <Header />
 
       <div className="mx-auto max-w-7xl">
         <div className="p-5 lg:px-8 lg:py-12">
@@ -122,16 +111,16 @@ const Bookings = async () => {
                   {/* Primary stats */}
 
                   <Card className="from-primary/10 to-primary/5 border-primary/20 hover:from-primary/15 hover:to-primary/10 group bg-linear-to-br backdrop-blur-sm transition-all duration-300 lg:col-span-2">
-                    <CardContent className="p-4 lg:p-6">
-                      <div className="flex items-center gap-3">
-                        <div className="bg-primary/20 group-hover:bg-primary/30 rounded-xl p-3 transition-colors">
-                          <ClockIcon className="text-primary h-6 w-6" />
+                    <CardContent className="p-3 lg:p-6">
+                      <div className="flex items-center gap-2 lg:gap-3">
+                        <div className="bg-primary/20 group-hover:bg-primary/30 rounded-xl p-2 transition-colors lg:p-3">
+                          <ClockIcon className="text-primary h-5 w-5 lg:h-6 lg:w-6" />
                         </div>
                         <div>
-                          <p className="text-primary text-3xl font-bold">
+                          <p className="text-primary text-2xl font-bold lg:text-3xl">
                             {totalReservasConfirmadas}
                           </p>
-                          <p className="text-muted-foreground text-sm font-medium">
+                          <p className="text-muted-foreground text-xs font-medium lg:text-sm">
                             Agendamentos Confirmados
                           </p>
                         </div>
@@ -140,16 +129,16 @@ const Bookings = async () => {
                   </Card>
 
                   <Card className="group border-green-500/20 bg-linear-to-br from-green-500/10 to-green-500/5 backdrop-blur-sm transition-all duration-300 hover:from-green-500/15 hover:to-green-500/10 lg:col-span-2">
-                    <CardContent className="p-4 lg:p-6">
+                    <CardContent className="p-3 lg:p-6">
                       <div className="flex items-center gap-3">
-                        <div className="rounded-xl bg-green-500/20 p-3 transition-colors group-hover:bg-green-500/30">
-                          <CheckCircleIcon className="h-6 w-6 text-green-500" />
+                        <div className="rounded-xl bg-green-500/20 p-2 transition-colors group-hover:bg-green-500/30 lg:p-3">
+                          <CheckCircleIcon className="h-5 w-5 text-green-500 lg:h-6 lg:w-6" />
                         </div>
                         <div>
-                          <p className="text-3xl font-bold text-green-500">
+                          <p className="text-2xl font-bold text-green-500 lg:text-3xl">
                             {totalReservasConcluidas}
                           </p>
-                          <p className="text-muted-foreground text-sm font-medium">
+                          <p className="text-muted-foreground text-xs font-medium lg:text-sm">
                             Agendamentos Finalizados
                           </p>
                         </div>
@@ -157,17 +146,20 @@ const Bookings = async () => {
                     </CardContent>
                   </Card>
 
-                  <Card className="group border-yellow-500/20 bg-linear-to-br from-yellow-500/10 to-yellow-500/5 backdrop-blur-sm transition-all duration-300 hover:from-yellow-500/15 hover:to-yellow-500/10 lg:col-span-2">
-                    <CardContent className="p-4 lg:p-6">
+                  <Card className="group col-span-2 border-yellow-500/20 bg-linear-to-br from-yellow-500/10 to-yellow-500/5 backdrop-blur-sm transition-all duration-300 hover:from-yellow-500/15 hover:to-yellow-500/10 lg:col-span-2">
+                    <CardContent className="p-3 lg:p-6">
                       <div className="flex items-center gap-3">
-                        <div className="rounded-xl bg-yellow-500/20 p-3 transition-colors group-hover:bg-yellow-500/30">
-                          <DollarSignIcon className="h-6 w-6 text-yellow-500" />
+                        <div className="rounded-xl bg-yellow-500/20 p-2 transition-colors group-hover:bg-yellow-500/30 lg:p-3">
+                          <DollarSignIcon className="h-5 w-5 text-yellow-500 lg:h-6 lg:w-6" />
                         </div>
                         <div>
-                          <p className="text-2xl font-bold text-yellow-500">
-                            R$ {totalGasto}
+                          <p className="text-2xl font-bold text-yellow-500 lg:text-3xl">
+                            {Intl.NumberFormat("pt-BR", {
+                              style: "currency",
+                              currency: "BRL",
+                            }).format(totalGasto)}
                           </p>
-                          <p className="text-muted-foreground text-sm font-medium">
+                          <p className="text-muted-foreground text-xs font-medium lg:text-sm">
                             Total Investido
                           </p>
                         </div>
@@ -287,7 +279,7 @@ const Bookings = async () => {
                 <div className="mb-6 flex items-center justify-between lg:mb-10">
                   <div className="flex items-center gap-4">
                     <div className="bg-primary/10 rounded-xl p-2">
-                      <ClockIcon className="text-primary h-6 w-6" />
+                      <ClockIcon className="text-primary h-5 w-5 lg:h-6 lg:w-6" />
                     </div>
                     <div>
                       <h2 className="text-xl font-bold lg:text-2xl">
@@ -304,11 +296,8 @@ const Bookings = async () => {
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 xl:grid-cols-3">
-                  {confirmedBookings.map((booking: Booking) => (
-                    <BookingItem
-                      key={booking.id}
-                      booking={JSON.parse(JSON.stringify(booking))}
-                    />
+                  {confirmedBookings.map((booking) => (
+                    <BookingItem key={booking.id} booking={booking} />
                   ))}
                 </div>
               </div>
@@ -319,7 +308,7 @@ const Bookings = async () => {
                 <div className="mb-6 flex items-center justify-between lg:mb-10">
                   <div className="flex items-center gap-4">
                     <div className="rounded-xl bg-green-500/10 p-2">
-                      <CheckCircleIcon className="h-6 w-6 text-green-500" />
+                      <CheckCircleIcon className="h-5 w-5 text-green-500 lg:h-6 lg:w-6" />
                     </div>
                     <div>
                       <h3 className="text-xl font-bold lg:text-2xl">
@@ -335,14 +324,7 @@ const Bookings = async () => {
                   </Badge>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 xl:grid-cols-3">
-                  {concludedBookings.map((booking: Booking) => (
-                    <BookingItem
-                      key={booking.id}
-                      booking={JSON.parse(JSON.stringify(booking))}
-                    />
-                  ))}
-                </div>
+                <BookingHistory bookings={concludedBookings} />
               </div>
             )}
           </div>
