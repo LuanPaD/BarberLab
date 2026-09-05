@@ -9,13 +9,8 @@ const MESSAGES: Record<string, string> = {
     "A barbearia vinculada à sua conta não foi encontrada.",
 }
 
-/**
- * Traduz o ?erro= usado pelos redirects do painel em um toast.
- *
- * Recebe o valor por prop (lido no servidor) em vez de usar
- * `useSearchParams`: aquele hook exigiria um <Suspense>, cuja fronteira muda
- * o formato da árvore entre servidor e cliente e desloca os ids do Radix.
- */
+// Valor lido no servidor e passado por prop: `useSearchParams` exigiria um
+// <Suspense>, cuja fronteira quebrava a hidratação.
 const AccessNotice = ({ error }: { error?: string }) => {
   const shown = useRef<string | null>(null)
 

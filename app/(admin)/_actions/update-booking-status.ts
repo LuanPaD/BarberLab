@@ -22,8 +22,7 @@ export const updateBookingStatus = async (input: unknown) => {
     return { ok: false as const, error: "Dados inválidos." }
   }
 
-  // updateMany com o barbershopId no where: se a reserva for de outra
-  // barbearia o count volta 0 e nada é alterado.
+  // barbershopId no where: reserva de outra barbearia devolve count 0.
   const result = await db.booking.updateMany({
     where: {
       id: parsed.data.bookingId,

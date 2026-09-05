@@ -56,7 +56,6 @@ const ServiceFormDialog = ({
     defaultValues: EMPTY,
   })
 
-  // O diálogo é montado uma vez e reaproveitado entre criar e editar.
   useEffect(() => {
     if (!open) return
     form.reset(

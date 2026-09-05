@@ -56,8 +56,6 @@ const AdminTopbar = ({
         </div>
 
         <div className="flex shrink-0 items-center gap-2">
-          {/* Fora do hambúrguer de propósito: dentro do menu ninguém achava a
-              saída do painel. */}
           <Button
             size="icon"
             variant="outline"

@@ -65,11 +65,7 @@ interface GetTimeListProps {
   durationMinutes: number
 }
 
-/**
- * Um horário só aparece se o atendimento inteiro couber nele: comparamos
- * [início, início + duração) com as faixas ocupadas — reservas e bloqueios.
- * Antes bastava não haver reserva começando naquele minuto exato.
- */
+// Um horário só aparece se o atendimento inteiro couber nele.
 const getTimeList = ({
   intervals,
   selectedDay,
@@ -174,9 +170,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
         }),
       })
 
-      // Uma ação só: com duas o toast do sonner espreme a coluna de texto.
-      // "Ver agendamentos" continua acessível pelo menu, e a reserva também
-      // traz o botão de WhatsApp na tela de detalhes.
+      // Uma ação só: com duas o sonner espreme a coluna de texto.
       toast.success("Reserva criada com sucesso!", {
         description: "Confirme com a barbearia pelo WhatsApp.",
         duration: 10000,

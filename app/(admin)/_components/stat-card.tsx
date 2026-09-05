@@ -17,12 +17,7 @@ const TONES = {
   destructive: "bg-destructive/10 text-destructive",
 } as const
 
-/**
- * No mobile o ícone vai para cima do texto: lado a lado sobra pouca largura
- * para o valor e o rótulo, que acabavam cortados. A partir de `sm` volta a
- * ficar na horizontal. Nada aqui usa `truncate` — rótulo cortado no meio é
- * pior que rótulo em duas linhas.
- */
+// Ícone acima do texto no mobile: lado a lado o rótulo não cabia.
 const StatCard = ({
   label,
   value,

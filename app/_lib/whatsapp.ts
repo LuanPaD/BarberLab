@@ -3,19 +3,12 @@ import { ptBR } from "date-fns/locale"
 
 const DEFAULT_COUNTRY_CODE = "55"
 
-/**
- * Normaliza um telefone brasileiro para o formato que o wa.me espera:
- * só dígitos, com DDI. Devolve null quando o número não é aproveitável.
- *
- * Aceita as formas que aparecem no banco e que o usuário digita:
- * "(11) 98204-5108", "11982045108", "5511982045108", "+55 11 98204-5108".
- */
+/** Telefone só com dígitos e DDI, como o wa.me espera. Null se inaproveitável. */
 export const normalizePhone = (
   phone: string | null | undefined,
 ): string | null => {
   if (!phone) return null
 
-  // Um "+" na frente diz que o DDI já veio junto — não prefixar o 55.
   const hasExplicitCountryCode = phone.trim().startsWith("+")
 
   let digits = phone.replace(/\D/g, "")
@@ -25,17 +18,15 @@ export const normalizePhone = (
     return digits.length >= 8 && digits.length <= 15 ? digits : null
   }
 
-  // Alguns cadastros trazem o zero do DDD ("011 98204-5108").
   if (digits.startsWith("0")) {
     digits = digits.replace(/^0+/, "")
   }
 
-  // DDD + número: 10 dígitos (fixo) ou 11 (celular com o 9).
+  // DDD + número: 10 dígitos no fixo, 11 no celular.
   if (digits.length === 10 || digits.length === 11) {
     return `${DEFAULT_COUNTRY_CODE}${digits}`
   }
 
-  // Já veio com o DDI 55.
   if (
     digits.startsWith(DEFAULT_COUNTRY_CODE) &&
     (digits.length === 12 || digits.length === 13)
@@ -43,7 +34,6 @@ export const normalizePhone = (
     return digits
   }
 
-  // Outro DDI, tamanho plausível para número internacional.
   if (digits.length >= 11 && digits.length <= 15) {
     return digits
   }
@@ -71,7 +61,7 @@ const formatWhen = (date: Date) => ({
   time: format(date, "HH:mm", { locale: ptBR }),
 })
 
-/** Mensagem que o cliente manda para a barbearia confirmando a reserva. */
+/** Cliente confirmando a reserva com a barbearia. */
 export const buildCustomerConfirmationMessage = ({
   serviceName,
   date,
@@ -96,7 +86,7 @@ export const buildCustomerConfirmationMessage = ({
     .join("\n")
 }
 
-/** Mensagem que o barbeiro manda para o cliente lembrando do horário. */
+/** Barbeiro lembrando o cliente do horário. */
 export const buildBarberReminderMessage = ({
   serviceName,
   date,
@@ -122,12 +112,8 @@ export const buildBarberReminderMessage = ({
 }
 
 /**
- * Monta o deep link do WhatsApp. Sem API oficial — só o wa.me, para não
- * arriscar banimento do número.
- *
- * Sem telefone válido o link vai sem destinatário: o WhatsApp abre com a
- * mensagem pronta e a pessoa escolhe o contato. É o que permite o lembrete
- * funcionar mesmo para cliente que ainda não cadastrou telefone.
+ * Deep link do wa.me — sem API oficial, para não arriscar banimento.
+ * Sem telefone válido vai sem destinatário e o WhatsApp pede o contato.
  */
 export const buildWhatsAppUrl = ({
   phone,

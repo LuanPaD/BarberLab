@@ -40,7 +40,7 @@ export const getConcludedBookings = async () => {
   return bookings.map(toBookingItem)
 }
 
-/** Só o que o BookingItem desenha — o resto viraria payload à toa. */
+/** Só o que o BookingItem desenha, para não inflar o payload. */
 const toBookingItem = (booking: {
   id: string
   date: Date

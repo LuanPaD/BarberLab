@@ -28,10 +28,7 @@ export interface AgendaBlock {
   reason: string | null
 }
 
-/**
- * Agenda de um dia. Recebe o `barbershopId` já validado pelo chamador — toda
- * consulta filtra por ele, nunca pelo id vindo da URL.
- */
+/** Agenda do dia. O `barbershopId` vem validado pelo chamador. */
 export const getDayAgenda = async (barbershopId: string, date: Date) => {
   const from = startOfDay(date)
   const to = endOfDay(date)

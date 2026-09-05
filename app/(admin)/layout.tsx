@@ -13,17 +13,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-/**
- * A casca fica montada aqui, em Server Component, e cada peça interativa é um
- * client component folha. Envolver `children` num client component desloca o
- * contexto de árvore do `useId` entre o SSR e a hidratação, e os ids do Radix
- * (aria-controls do Sheet) saíam diferentes dos dois lados.
- */
+// A casca fica em Server Component e cada peça interativa é client folha:
+// envolver `children` num client component quebrava a hidratação do Radix.
 const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
   const admin = await requireBarbershopAdmin()
 
-  // Sem sessão vai para a home (onde fica o diálogo de login); logado mas sem
-  // permissão também volta para a home — não existe painel para ele.
   if (!admin) {
     const session = await auth()
     redirect(session?.user ? "/?erro=acesso-negado" : "/")
@@ -34,7 +28,6 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
     select: { name: true, imageUrl: true },
   })
 
-  // O vínculo existe na sessão mas a barbearia sumiu do banco.
   if (!barbershop) {
     redirect("/?erro=barbearia-nao-encontrada")
   }

@@ -66,8 +66,6 @@ const SidebarSheet = () => {
             Agendamentos
           </Link>
         </Button>
-        {/* Sem SheetClose: o AdminPanelLink não repassa os props do Slot, e
-            a navegação para /dashboard já desmonta o sheet. */}
         <AdminPanelLink className="w-full justify-start gap-2" />
       </div>
 

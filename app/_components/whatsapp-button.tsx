@@ -9,7 +9,7 @@ interface WhatsAppButtonProps extends Omit<ButtonProps, "asChild" | "onClick"> {
   phone?: string | null
   message: string
   label?: string
-  /** Texto usado quando não há telefone e o WhatsApp abre para escolher o contato. */
+  /** Usado quando não há telefone e o WhatsApp pede o contato. */
   fallbackLabel?: string
 }
 

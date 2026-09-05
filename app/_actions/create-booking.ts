@@ -14,14 +14,7 @@ interface CreateBookingParams {
 const overlaps = (aStart: Date, aEnd: Date, bStart: Date, bEnd: Date) =>
   aStart < bEnd && aEnd > bStart
 
-/**
- * Cria a reserva.
- *
- * A disponibilidade mostrada na tela é uma conveniência do cliente; quem
- * decide é aqui. Sem isso dava para agendar em horário já ocupado, dentro de
- * um bloqueio do barbeiro, no passado, ou num serviço desativado — bastava
- * chamar a action direto.
- */
+// A disponibilidade da tela é conveniência; quem decide é o servidor.
 export const createBooking = async ({
   serviceId,
   date,

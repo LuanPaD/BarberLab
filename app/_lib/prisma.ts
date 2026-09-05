@@ -19,17 +19,14 @@ function createPrismaClient(): PrismaClient {
   }
 
   if (!globalThis.cachedPool) {
-    // `sslmode`/`channel_binding` na URL fazem o pg-connection-string emitir
-    // um aviso de depreciação a cada boot. O SSL é configurado abaixo, então
-    // esses parâmetros são redundantes aqui (o Prisma CLI continua usando a
-    // URL original do .env).
+    // sslmode/channel_binding na URL geram aviso do pg-connection-string e
+    // são redundantes: o SSL é configurado abaixo.
     const url = new URL(connectionString)
     url.searchParams.delete("sslmode")
     url.searchParams.delete("channel_binding")
 
     globalThis.cachedPool = new Pool({
       connectionString: url.toString(),
-      // Verificação completa do certificado (o Neon apresenta cadeia válida).
       ssl: true,
     })
   }

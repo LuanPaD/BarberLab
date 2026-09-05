@@ -13,16 +13,6 @@ interface BookingHistoryProps {
   bookings: BookingItemData[]
 }
 
-/**
- * Mostra o histórico aos poucos.
- *
- * Não é só estética: renderizar as dezenas de cartões de uma vez no servidor
- * faz o `useId` do React transbordar a codificação de posição na árvore, e o
- * SSR passa a discordar da hidratação (os ids do Radix saíam trocados).
- * Renderizando um lote pequeno no servidor e expandindo no cliente — já depois
- * da hidratação — o problema não acontece, e o mobile deixa de receber uma
- * lista interminável.
- */
 const BookingHistory = ({ bookings }: BookingHistoryProps) => {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const visible = bookings.slice(0, visibleCount)

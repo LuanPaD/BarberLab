@@ -15,19 +15,7 @@ export interface UnavailableInterval {
   endsAt: Date
 }
 
-/**
- * Intervalos em que NÃO se pode agendar aquele serviço naquele dia.
- *
- * Três correções em relação à versão anterior (`getBookings`):
- * 1. Escopo — antes retornava reservas de TODAS as barbearias, então uma
- *    reserva em outra barbearia bloqueava o horário aqui.
- * 2. Vazamento — antes devolvia a reserva inteira, com `userId`. Agora só
- *    saem faixas de horário, sem dizer de quem são.
- * 3. Bloqueios — os `ScheduleBlock` criados pelo barbeiro passam a contar.
- *
- * Também considera a duração: uma reserva de 45 min às 09:00 ocupa até 09:45,
- * não apenas o slot das 09:00.
- */
+/** Faixas ocupadas do dia: reservas e bloqueios, sem expor de quem são. */
 export const getUnavailableIntervals = async ({
   serviceId,
   date,

@@ -13,13 +13,11 @@ export const formatDuration = (minutes: number) => {
   return rest === 0 ? `${hours}h` : `${hours}h ${rest}min`
 }
 
-/** Chave estável para navegação por dia via querystring (?date=YYYY-MM-DD). */
 export const toDateParam = (date: Date) => {
   const offset = date.getTimezoneOffset() * 60000
   return new Date(date.getTime() - offset).toISOString().slice(0, 10)
 }
 
-/** Lê ?date=YYYY-MM-DD com fallback para hoje, sem cair em Invalid Date. */
 export const parseDateParam = (value?: string | null) => {
   if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return new Date()
   const [year, month, day] = value.split("-").map(Number)

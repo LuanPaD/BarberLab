@@ -44,8 +44,6 @@ export const createScheduleBlock = async (input: unknown) => {
   const startsAt = buildDate(date, startTime)
   const endsAt = buildDate(date, endTime)
 
-  // Bloquear um intervalo que já tem cliente marcado esconderia o
-  // agendamento na agenda. Melhor recusar e deixar o barbeiro decidir.
   const conflicting = await db.booking.count({
     where: {
       status: { not: BookingStatus.CANCELED },

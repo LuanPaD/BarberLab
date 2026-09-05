@@ -3,10 +3,7 @@ import { ChevronDownIcon } from "lucide-react"
 
 import { cn } from "@/app/_lib/utils"
 
-/**
- * Select nativo estilizado. Escolha deliberada: no mobile abre o picker do
- * sistema, que é mais rápido e acessível que um dropdown customizado.
- */
+// Nativo de propósito: no mobile abre o picker do sistema.
 const Select = React.forwardRef<
   HTMLSelectElement,
   React.ComponentProps<"select">

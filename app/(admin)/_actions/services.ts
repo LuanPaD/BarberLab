@@ -31,7 +31,6 @@ export const upsertService = async (input: unknown) => {
   const data = { ...rest, price: new Prisma.Decimal(price.toFixed(2)) }
 
   if (id) {
-    // updateMany garante que o serviço é da barbearia do usuário logado.
     const result = await db.barbershopService.updateMany({
       where: { id, barbershopId: admin.barbershopId },
       data,
@@ -89,8 +88,7 @@ export const deleteService = async (serviceId: string) => {
     return { ok: false as const, error: "Serviço não encontrado." }
   }
 
-  // Apagar o serviço apagaria o histórico das reservas junto (a FK é
-  // RESTRICT, então o banco recusaria). Desativar preserva o histórico.
+  // A FK é RESTRICT: desativar preserva o histórico das reservas.
   if (service._count.bookings > 0) {
     return {
       ok: false as const,

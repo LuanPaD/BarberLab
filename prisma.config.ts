@@ -2,7 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { defineConfig, env } from "prisma/config"
 
-// O Prisma 7 não carrega mais o .env automaticamente.
+// O Prisma 7 não carrega o .env sozinho.
 loadEnvFile(".env")
 loadEnvFile(".env.local")
 

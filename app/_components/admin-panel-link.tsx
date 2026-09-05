@@ -7,16 +7,9 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Button } from "./ui/button"
 
-/**
- * Atalho para o painel, visível só para quem administra uma barbearia.
- * É conveniência de navegação — o controle de acesso real está no
- * layout de (admin) e em cada Server Action.
- *
- * O SessionProvider não recebe sessão no servidor, então só renderizamos
- * depois de montar. Sem isso o servidor manda um nó a menos que o cliente e
- * os ids do Radix logo abaixo saem trocados (erro de hidratação). Mesmo
- * motivo da flag `mounted` em user-menu.tsx.
- */
+// Só atalho de navegação; o acesso é barrado no layout de (admin) e nas
+// actions. Renderiza após montar porque a sessão não existe no servidor e a
+// diferença de nós quebrava a hidratação.
 const AdminPanelLink = ({ className }: { className?: string }) => {
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)
