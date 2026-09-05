@@ -36,7 +36,7 @@ const Home = async ({ searchParams }: HomeProps) => {
   const confirmedBookings = await getConfirmedBookings()
 
   return (
-    <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
+    <div className="from-background via-background to-muted/20 min-h-svh bg-linear-to-br">
       <AccessNotice error={erro} />
 
       {/* cabeçalho */}
@@ -124,7 +124,7 @@ const Home = async ({ searchParams }: HomeProps) => {
                 <h3 className="text-muted-foreground mb-4 hidden text-sm font-medium tracking-wider uppercase lg:block">
                   Serviços populares
                 </h3>
-                <div className="flex gap-3 overflow-x-scroll lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible [&::-webkit-scrollbar]:hidden">
+                <div className="flex [scrollbar-width:none] gap-3 overflow-x-scroll lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible [&::-webkit-scrollbar]:hidden">
                   {quickSearchOptions.map((option) => (
                     <Button
                       className="shrink-0 gap-2 transition-transform hover:scale-105 lg:h-12 lg:shrink lg:justify-start lg:text-base"
@@ -197,7 +197,7 @@ const Home = async ({ searchParams }: HomeProps) => {
                 </h2>
               </div>
 
-              <div className="flex gap-3 overflow-x-auto lg:grid lg:grid-cols-2 lg:gap-6 lg:overflow-visible xl:grid-cols-3 [&::-webkit-scrollbar]:hidden">
+              <div className="flex [scrollbar-width:none] gap-3 overflow-x-auto lg:grid lg:grid-cols-2 lg:gap-6 lg:overflow-visible xl:grid-cols-3 [&::-webkit-scrollbar]:hidden">
                 {confirmedBookings.map((booking) => (
                   <BookingItem key={booking.id} booking={booking} />
                 ))}
@@ -219,7 +219,7 @@ const Home = async ({ searchParams }: HomeProps) => {
               </Button>
             </div>
 
-            <div className="flex gap-4 overflow-auto lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible xl:grid-cols-4 2xl:grid-cols-5 [&::-webkit-scrollbar]:hidden">
+            <div className="flex [scrollbar-width:none] gap-4 overflow-auto lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible xl:grid-cols-4 2xl:grid-cols-5 [&::-webkit-scrollbar]:hidden">
               {barbershops.slice(0, 5).map((barbershop) => (
                 <BarbershopItem key={barbershop.id} barbershop={barbershop} />
               ))}
@@ -240,7 +240,7 @@ const Home = async ({ searchParams }: HomeProps) => {
               </Button>
             </div>
 
-            <div className="flex gap-4 overflow-auto lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible xl:grid-cols-4 2xl:grid-cols-5 [&::-webkit-scrollbar]:hidden">
+            <div className="flex [scrollbar-width:none] gap-4 overflow-auto lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible xl:grid-cols-4 2xl:grid-cols-5 [&::-webkit-scrollbar]:hidden">
               {popularBarbershops.slice(0, 10).map((barbershop) => (
                 <BarbershopItem key={barbershop.id} barbershop={barbershop} />
               ))}

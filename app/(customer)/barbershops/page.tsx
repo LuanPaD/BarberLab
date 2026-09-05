@@ -38,7 +38,7 @@ export default async function BarbershopsPage({ searchParams }: any) {
   const totalResults = barbershops.length
 
   return (
-    <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
+    <div className="from-background via-background to-muted/20 min-h-svh bg-linear-to-br">
       <Header />
 
       {/* Conteúdo principal */}

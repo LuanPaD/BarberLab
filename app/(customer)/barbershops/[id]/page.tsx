@@ -61,7 +61,7 @@ export default async function BarbershopPage({ params }: any) {
   )
 
   return (
-    <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
+    <div className="from-background via-background to-muted/20 min-h-svh bg-linear-to-br">
       {/* Imagem principal (Hero) */}
       <div className="relative h-75 w-full lg:h-125">
         <Image

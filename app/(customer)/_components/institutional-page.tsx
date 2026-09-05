@@ -16,7 +16,7 @@ const InstitutionalPage = ({
   children,
 }: InstitutionalPageProps) => {
   return (
-    <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
+    <div className="from-background via-background to-muted/20 min-h-svh bg-linear-to-br">
       <Header />
 
       <div className="mx-auto max-w-3xl px-5 py-10 lg:px-8 lg:py-16">
