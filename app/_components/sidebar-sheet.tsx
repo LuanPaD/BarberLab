@@ -1,7 +1,13 @@
 "use client"
 
 import { Button } from "./ui/button"
-import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react"
+import {
+  CalendarIcon,
+  HomeIcon,
+  LogInIcon,
+  LogOutIcon,
+  UserIcon,
+} from "lucide-react"
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet"
 import { quickSearchOptions } from "../_constants/search"
 import Link from "next/link"
@@ -71,6 +77,16 @@ const SidebarSheet = ({ singleTenant = false }: SidebarSheetProps) => {
             Agendamentos
           </Link>
         </Button>
+        {data?.user && (
+          <SheetClose asChild>
+            <Button className="justify-start gap-2" variant="ghost" asChild>
+              <Link href="/perfil">
+                <UserIcon size={18} />
+                Meus dados
+              </Link>
+            </Button>
+          </SheetClose>
+        )}
         <AdminPanelLink className="w-full justify-start gap-2" />
       </div>
 

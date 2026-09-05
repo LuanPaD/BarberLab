@@ -1,6 +1,7 @@
 import { Button } from "./ui/button"
 import { signOut } from "next-auth/react"
 import { Avatar, AvatarImage } from "./ui/avatar"
+import Link from "next/link"
 
 interface UserProps {
   user: {
@@ -26,13 +27,19 @@ const UserInfo = ({ user }: UserProps) => {
           </>
         )}
       </div>
-      <Button
-        variant="destructive"
-        className="w-full font-semibold"
-        onClick={() => signOut()}
-      >
-        Sair
-      </Button>
+      <div className="w-full space-y-2">
+        <Button variant="outline" className="w-full" asChild>
+          <Link href="/perfil">Meus dados</Link>
+        </Button>
+
+        <Button
+          variant="destructive"
+          className="w-full font-semibold"
+          onClick={() => signOut()}
+        >
+          Sair
+        </Button>
+      </div>
     </div>
   )
 }
