@@ -19,9 +19,15 @@ import { createBooking } from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 import {
+  getServiceOpeningHours,
   getUnavailableIntervals,
   type UnavailableInterval,
 } from "../_actions/get-bookings"
+import {
+  buildDaySlots,
+  findDayHours,
+  type OpeningHourSlot,
+} from "../_lib/opening-hours"
 import { Dialog, DialogContent } from "./ui/dialog"
 import SignInDialog from "./sign-in-dialog"
 import BookingSummary from "./booking-summary"
@@ -35,43 +41,23 @@ interface ServiceItemProps {
   barbershop: Pick<Barbershop, "name" | "phones">
 }
 
-const TIME_LIST = [
-  "08:00",
-  "08:30",
-  "09:00",
-  "09:30",
-  "10:00",
-  "10:30",
-  "11:00",
-  "11:30",
-  "12:00",
-  "12:30",
-  "13:00",
-  "13:30",
-  "14:00",
-  "14:30",
-  "15:00",
-  "15:30",
-  "16:00",
-  "16:30",
-  "17:00",
-  "17:30",
-  "18:00",
-]
-
 interface GetTimeListProps {
   intervals: UnavailableInterval[]
   selectedDay: Date
   durationMinutes: number
+  openingHours: OpeningHourSlot[]
 }
 
-// Um horário só aparece se o atendimento inteiro couber nele.
+// Um horário só aparece se o atendimento inteiro couber nele e no expediente.
 const getTimeList = ({
   intervals,
   selectedDay,
   durationMinutes,
+  openingHours,
 }: GetTimeListProps) => {
-  return TIME_LIST.filter((time) => {
+  const doDia = findDayHours(openingHours, selectedDay)
+
+  return buildDaySlots(doDia, durationMinutes).filter((time) => {
     const [hours, minutes] = time.split(":").map(Number)
     const startsAt = set(selectedDay, {
       hours,
@@ -100,17 +86,19 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     undefined,
   )
   const [unavailable, setUnavailable] = useState<UnavailableInterval[]>([])
+  const [openingHours, setOpeningHours] = useState<OpeningHourSlot[]>([])
   const [bookingSheetIsOpen, setBookingSheetIsOpen] = useState(false)
   const [isCreating, startCreating] = useTransition()
 
   useEffect(() => {
     const fetch = async () => {
       if (!selectedDay) return
-      const intervals = await getUnavailableIntervals({
-        date: selectedDay,
-        serviceId: service.id,
-      })
+      const [intervals, hours] = await Promise.all([
+        getUnavailableIntervals({ date: selectedDay, serviceId: service.id }),
+        getServiceOpeningHours(service.id),
+      ])
       setUnavailable(intervals)
+      setOpeningHours(hours)
     }
     fetch()
   }, [selectedDay, service.id])
@@ -193,8 +181,9 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
       intervals: unavailable,
       selectedDay,
       durationMinutes: service.durationMinutes,
+      openingHours,
     })
-  }, [unavailable, selectedDay, service.durationMinutes])
+  }, [unavailable, selectedDay, service.durationMinutes, openingHours])
 
   return (
     <>

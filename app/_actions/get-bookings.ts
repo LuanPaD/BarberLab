@@ -65,3 +65,18 @@ export const getUnavailableIntervals = async ({
     })),
   ]
 }
+
+/** Expediente da barbearia dona do serviço, para a tela montar a grade. */
+export const getServiceOpeningHours = async (serviceId: string) => {
+  const service = await db.barbershopService.findUnique({
+    where: { id: serviceId },
+    select: { barbershopId: true },
+  })
+  if (!service) return []
+
+  return db.openingHour.findMany({
+    where: { barbershopId: service.barbershopId },
+    orderBy: { weekday: "asc" },
+    select: { weekday: true, opensAt: true, closesAt: true, isClosed: true },
+  })
+}

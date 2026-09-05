@@ -76,18 +76,34 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
+model OpeningHour {
+  id           String     @id @default(uuid())
+  barbershopId String
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+  weekday      Int
+  opensAt      String
+  closesAt     String
+  isClosed     Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([barbershopId, weekday])
+  @@index([barbershopId])
+}
+
 model Barbershop {
-  id          String              @id @default(uuid())
-  name        String
-  address     String
-  phones      String[]
-  description String
-  imageUrl    String
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-  services    BarbershopService[]
-  staff       User[]              @relation("BarbershopStaff")
-  blocks      ScheduleBlock[]
+  id           String              @id @default(uuid())
+  name         String
+  address      String
+  phones       String[]
+  description  String
+  imageUrl     String
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  services     BarbershopService[]
+  staff        User[]              @relation("BarbershopStaff")
+  blocks       ScheduleBlock[]
+  openingHours OpeningHour[]
 }
 
 model BarbershopService {

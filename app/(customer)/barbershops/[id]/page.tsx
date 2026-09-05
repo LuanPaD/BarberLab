@@ -1,3 +1,5 @@
+import { db } from "@/app/_lib/prisma"
+import { WEEKDAY_LABELS } from "@/app/_lib/opening-hours"
 import type { Metadata } from "next"
 import PhoneItem from "@/app/_components/phone-item"
 import ServiceItem from "@/app/_components/service-item"
@@ -50,15 +52,11 @@ export default async function BarbershopPage({ params }: any) {
     return notFound()
   }
 
-  const openingHours = {
-    monday: "08:00 - 18:00",
-    tuesday: "08:00 - 18:00",
-    wednesday: "08:00 - 18:00",
-    thursday: "08:00 - 18:00",
-    friday: "08:00 - 20:00",
-    saturday: "09:00 - 16:00",
-    sunday: "Fechado",
-  }
+  const openingHours = await db.openingHour.findMany({
+    where: { barbershopId: id },
+    orderBy: { weekday: "asc" },
+    select: { weekday: true, opensAt: true, closesAt: true, isClosed: true },
+  })
 
   return (
     <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">
@@ -285,24 +283,20 @@ export default async function BarbershopPage({ params }: any) {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {Object.entries(openingHours).map(([day, hours]) => (
+                    {openingHours.map((hour) => (
                       <div
-                        key={day}
+                        key={hour.weekday}
                         className="border-border/50 flex items-center justify-between border-b py-2 last:border-0"
                       >
-                        <span className="text-sm font-medium capitalize">
-                          {day === "monday" && "Segunda-feira"}
-                          {day === "tuesday" && "Terça-feira"}
-                          {day === "wednesday" && "Quarta-feira"}
-                          {day === "thursday" && "Quinta-feira"}
-                          {day === "friday" && "Sexta-feira"}
-                          {day === "saturday" && "Sábado"}
-                          {day === "sunday" && "Domingo"}
+                        <span className="text-sm font-medium">
+                          {WEEKDAY_LABELS[hour.weekday]}
                         </span>
                         <span
-                          className={`text-sm ${hours === "Fechado" ? "text-red-500" : "text-muted-foreground"}`}
+                          className={`text-sm ${hour.isClosed ? "text-red-500" : "text-muted-foreground"}`}
                         >
-                          {hours}
+                          {hour.isClosed
+                            ? "Fechado"
+                            : `${hour.opensAt} - ${hour.closesAt}`}
                         </span>
                       </div>
                     ))}

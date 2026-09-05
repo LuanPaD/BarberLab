@@ -5,6 +5,7 @@ import { addMinutes, endOfDay, startOfDay } from "date-fns"
 import { revalidatePath } from "next/cache"
 import { auth } from "../_lib/auth"
 import { db } from "../_lib/prisma"
+import { buildDaySlots, findDayHours } from "../_lib/opening-hours"
 
 interface CreateBookingParams {
   serviceId: string
@@ -47,6 +48,27 @@ export const createBooking = async ({
 
   if (!service || !service.isActive) {
     return { ok: false as const, error: "Serviço indisponível." }
+  }
+
+  const openingHours = await db.openingHour.findMany({
+    where: { barbershopId: service.barbershopId },
+    select: { weekday: true, opensAt: true, closesAt: true, isClosed: true },
+  })
+
+  const horarioValido = buildDaySlots(
+    findDayHours(openingHours, bookingDate),
+    service.durationMinutes,
+  ).includes(
+    `${String(bookingDate.getHours()).padStart(2, "0")}:${String(
+      bookingDate.getMinutes(),
+    ).padStart(2, "0")}`,
+  )
+
+  if (!horarioValido) {
+    return {
+      ok: false as const,
+      error: "A barbearia não atende nesse horário.",
+    }
   }
 
   const endsAt = addMinutes(bookingDate, service.durationMinutes)
