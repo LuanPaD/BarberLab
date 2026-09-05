@@ -26,13 +26,11 @@ interface CatalogHomeProps {
 
 const CatalogHome = async ({ erro }: CatalogHomeProps) => {
   const session = await getServerSession(authOptions)
-  const barbershops = await db.barbershop.findMany({})
-  const popularBarbershops = await db.barbershop.findMany({
-    orderBy: {
-      name: "desc",
-    },
-  })
-  const confirmedBookings = await getConfirmedBookings()
+  const [barbershops, confirmedBookings] = await Promise.all([
+    db.barbershop.findMany({ orderBy: { name: "asc" } }),
+    getConfirmedBookings(),
+  ])
+  const popularBarbershops = [...barbershops].reverse()
 
   return (
     <div className="from-background via-background to-muted/20 min-h-svh bg-linear-to-br">

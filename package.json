@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
-    "prepare": "husky && prisma generate"
+    "prepare": "husky && prisma generate",
+    "analyze": "ANALYZE=true next build"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -59,6 +60,7 @@
     "@eslint/eslintrc": "^3.3.6",
     "@eslint/js": "^9.39.5",
     "@eslint/migrate-config": "^2.1.0",
+    "@next/bundle-analyzer": "^16.3.4",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^25.9.5",
     "@types/pg": "^8.23.1",
