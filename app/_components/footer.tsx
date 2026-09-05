@@ -1,5 +1,5 @@
 import { CardContent } from "./ui/card"
-import { MapPinIcon, PhoneIcon, MailIcon } from "lucide-react"
+import { MapPinIcon, MessageCircleIcon, MailIcon } from "lucide-react"
 import Link from "next/link"
 
 const Footer = () => {
@@ -119,12 +119,22 @@ const Footer = () => {
                 <h4 className="font-semibold">Contato</h4>
                 <div className="text-muted-foreground space-y-3 text-sm">
                   <div className="flex items-center gap-2">
-                    <PhoneIcon className="h-4 w-4" />
-                    <span>(14) 99667-4489</span>
+                    <MailIcon className="h-4 w-4" />
+                    <a
+                      href="mailto:lptech.contato.labs@gmail.com"
+                      className="hover:text-primary transition-colors"
+                    >
+                      lptech.contato.labs@gmail.com
+                    </a>
                   </div>
                   <div className="flex items-center gap-2">
-                    <MailIcon className="h-4 w-4" />
-                    <span>luanpmiranda@gmail.com</span>
+                    <MessageCircleIcon className="h-4 w-4" />
+                    <Link
+                      href="/contato"
+                      className="hover:text-primary transition-colors"
+                    >
+                      Fale com a gente
+                    </Link>
                   </div>
                 </div>
               </div>
