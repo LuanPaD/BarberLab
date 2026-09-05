@@ -10,7 +10,8 @@ const Footer = () => {
           {/* Mobile layout */}
           <div className="lg:hidden">
             <p className="text-center text-sm text-gray-400">
-              © 2025 Copyright <span className="font-bold">Barber Lab</span>
+              © {new Date().getFullYear()} Copyright{" "}
+              <span className="font-bold">Barber Lab</span>
             </p>
 
             <p>
@@ -132,8 +133,9 @@ const Footer = () => {
             {/* Bottom section */}
             <div className="flex items-center justify-between border-t pt-8">
               <p className="text-muted-foreground text-sm">
-                © 2025 <span className="font-bold">Barber Lab</span>. Todos os
-                direitos reservados.
+                © {new Date().getFullYear()}{" "}
+                <span className="font-bold">Barber Lab</span>. Todos os direitos
+                reservados.
               </p>
 
               <p>
