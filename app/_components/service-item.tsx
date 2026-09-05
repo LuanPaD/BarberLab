@@ -280,23 +280,26 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   </div>
 
                   {selectedDay && (
-                    <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 [&::-webkit-scrollbar]:hidden">
+                    <div className="max-h-56 overflow-y-auto border-b border-solid p-5">
                       {timeList.length > 0 ? (
-                        timeList.map((time) => (
-                          <Button
-                            key={time}
-                            variant={
-                              selectedTime === time ? "default" : "outline"
-                            }
-                            className="rounded-full"
-                            onClick={() => handleTimeSelect(time)}
-                          >
-                            {time}
-                          </Button>
-                        ))
+                        <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                          {timeList.map((time) => (
+                            <Button
+                              key={time}
+                              size="sm"
+                              variant={
+                                selectedTime === time ? "default" : "outline"
+                              }
+                              onClick={() => handleTimeSelect(time)}
+                            >
+                              {time}
+                            </Button>
+                          ))}
+                        </div>
                       ) : (
-                        <p className="text-xs">
-                          Não há horários disponíveis para este dia.
+                        <p className="text-muted-foreground text-sm">
+                          A barbearia não atende nesse dia ou os horários já
+                          foram preenchidos.
                         </p>
                       )}
                     </div>

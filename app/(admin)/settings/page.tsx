@@ -1,5 +1,6 @@
 import { requireBarbershopAdmin } from "@/app/_lib/auth"
 import { db } from "@/app/_lib/prisma"
+import { withDefaults } from "@/app/_lib/opening-hours"
 import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 import OpeningHoursForm from "../_components/opening-hours-form"
@@ -9,13 +10,6 @@ export const metadata: Metadata = {
   title: "Configurações | Barber Lab",
   description: "Horário de funcionamento e dados da barbearia.",
 }
-
-const PADRAO = [0, 1, 2, 3, 4, 5, 6].map((weekday) => ({
-  weekday,
-  opensAt: "09:00",
-  closesAt: "18:00",
-  isClosed: weekday === 0,
-}))
 
 const Settings = async () => {
   const admin = await requireBarbershopAdmin()
@@ -27,9 +21,7 @@ const Settings = async () => {
     select: { weekday: true, opensAt: true, closesAt: true, isClosed: true },
   })
 
-  const hours = PADRAO.map(
-    (padrao) => salvos.find((s) => s.weekday === padrao.weekday) ?? padrao,
-  )
+  const hours = withDefaults(salvos)
 
   return (
     <div className="mx-auto max-w-3xl space-y-8 p-5 lg:px-8 lg:py-10">

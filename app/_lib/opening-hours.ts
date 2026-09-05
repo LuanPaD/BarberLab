@@ -17,6 +17,22 @@ export const WEEKDAY_LABELS = [
 
 const SLOT_STEP_MINUTES = 30
 
+/** Usado quando a barbearia ainda não configurou o expediente. */
+export const DEFAULT_OPENING_HOURS: OpeningHourSlot[] = [
+  0, 1, 2, 3, 4, 5, 6,
+].map((weekday) => ({
+  weekday,
+  opensAt: "09:00",
+  closesAt: "19:00",
+  isClosed: weekday === 0,
+}))
+
+/** Completa os dias que faltam com o padrão, para a grade nunca vir vazia. */
+export const withDefaults = (hours: OpeningHourSlot[]): OpeningHourSlot[] =>
+  DEFAULT_OPENING_HOURS.map(
+    (padrao) => hours.find((h) => h.weekday === padrao.weekday) ?? padrao,
+  )
+
 const toMinutes = (time: string) => {
   const [hours, minutes] = time.split(":").map(Number)
   return hours * 60 + minutes

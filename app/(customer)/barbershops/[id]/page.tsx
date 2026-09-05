@@ -1,5 +1,5 @@
 import { db } from "@/app/_lib/prisma"
-import { WEEKDAY_LABELS } from "@/app/_lib/opening-hours"
+import { WEEKDAY_LABELS, withDefaults } from "@/app/_lib/opening-hours"
 import type { Metadata } from "next"
 import PhoneItem from "@/app/_components/phone-item"
 import ServiceItem from "@/app/_components/service-item"
@@ -52,11 +52,13 @@ export default async function BarbershopPage({ params }: any) {
     return notFound()
   }
 
-  const openingHours = await db.openingHour.findMany({
-    where: { barbershopId: id },
-    orderBy: { weekday: "asc" },
-    select: { weekday: true, opensAt: true, closesAt: true, isClosed: true },
-  })
+  const openingHours = withDefaults(
+    await db.openingHour.findMany({
+      where: { barbershopId: id },
+      orderBy: { weekday: "asc" },
+      select: { weekday: true, opensAt: true, closesAt: true, isClosed: true },
+    }),
+  )
 
   return (
     <div className="from-background via-background to-muted/20 min-h-screen bg-linear-to-br">

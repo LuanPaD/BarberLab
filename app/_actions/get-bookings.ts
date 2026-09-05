@@ -4,6 +4,7 @@ import { BookingStatus } from "@prisma/client"
 import { addMinutes, endOfDay, startOfDay } from "date-fns"
 import { auth } from "../_lib/auth"
 import { db } from "../_lib/prisma"
+import { withDefaults } from "../_lib/opening-hours"
 
 interface GetUnavailableIntervalsProps {
   serviceId: string
@@ -74,9 +75,11 @@ export const getServiceOpeningHours = async (serviceId: string) => {
   })
   if (!service) return []
 
-  return db.openingHour.findMany({
+  const hours = await db.openingHour.findMany({
     where: { barbershopId: service.barbershopId },
     orderBy: { weekday: "asc" },
     select: { weekday: true, opensAt: true, closesAt: true, isClosed: true },
   })
+
+  return withDefaults(hours)
 }
