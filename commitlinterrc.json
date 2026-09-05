@@ -1,0 +1,11 @@
+{
+  "lang": "pt-br",
+  "types": {
+    "raw": "mudanças em arquivos de configuração, dados, features ou parâmetros",
+    "cleanup": "remoção de código comentado ou trechos desnecessários",
+    "remove": "exclusão de arquivos, diretórios ou funcionalidades obsoletas"
+  },
+  "max-len": 100,
+  "scopes": [],
+  "example": "feat(admin): adiciona bloqueio de horario na agenda"
+}
