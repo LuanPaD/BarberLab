@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { requireBarbershopAdmin } from "@/app/_lib/auth"
 import { Card, CardContent } from "@/app/_components/ui/card"
 import { addMinutes, format } from "date-fns"
@@ -39,6 +40,11 @@ type TimelineEntry =
       title: string
       subtitle: string
     }
+
+export const metadata: Metadata = {
+  title: "Agenda | Barber Lab",
+  description: "Gestão de horários e bloqueios da barbearia.",
+}
 
 const Schedule = async ({ searchParams }: ScheduleProps) => {
   const admin = await requireBarbershopAdmin()

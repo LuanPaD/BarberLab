@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import PhoneItem from "@/app/_components/phone-item"
 import ServiceItem from "@/app/_components/service-item"
 import SidebarSheet from "@/app/_components/sidebar-sheet"
@@ -27,6 +28,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card"
+
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+  const { id } = await params
+  const barbershop = await getBarbershopsById(id)
+
+  if (!barbershop) {
+    return { title: "Barbearia não encontrada | Barber Lab" }
+  }
+
+  return {
+    title: `${barbershop.name} | Barber Lab`,
+    description: `Agende online na ${barbershop.name}, em ${barbershop.address}. Veja os serviços, preços e horários disponíveis.`,
+  }
+}
 
 export default async function BarbershopPage({ params }: any) {
   const { id } = await params

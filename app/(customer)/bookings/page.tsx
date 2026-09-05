@@ -1,5 +1,4 @@
-"use server"
-
+import type { Metadata } from "next"
 import { getServerSession } from "next-auth"
 import Header from "@/app/_components/header"
 import { authOptions } from "@/app/_lib/auth"
@@ -33,6 +32,12 @@ type Booking = {
       name: string
     } | null
   }
+}
+
+export const metadata: Metadata = {
+  title: "Meus agendamentos | Barber Lab",
+  description:
+    "Acompanhe seus horários confirmados, veja o histórico de atendimentos e cancele reservas.",
 }
 
 const Bookings = async () => {

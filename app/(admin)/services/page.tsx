@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { requireBarbershopAdmin } from "@/app/_lib/auth"
 import { BanknoteIcon, ClockIcon, ScissorsIcon } from "lucide-react"
 import { redirect } from "next/navigation"
@@ -6,6 +7,11 @@ import ServicesManager from "../_components/services-manager"
 import StatCard from "../_components/stat-card"
 import { getAdminServices } from "../_data/get-services"
 import { formatCurrency, formatDuration } from "../_lib/format"
+
+export const metadata: Metadata = {
+  title: "Serviços | Barber Lab",
+  description: "Catálogo de serviços com preço e duração.",
+}
 
 const Services = async () => {
   const admin = await requireBarbershopAdmin()

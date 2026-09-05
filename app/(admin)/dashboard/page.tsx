@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { requireBarbershopAdmin } from "@/app/_lib/auth"
 import { db } from "@/app/_lib/prisma"
 import { format, isToday } from "date-fns"
@@ -21,6 +22,11 @@ import { formatCurrency, formatDuration, parseDateParam } from "../_lib/format"
 
 interface DashboardProps {
   searchParams: Promise<{ date?: string }>
+}
+
+export const metadata: Metadata = {
+  title: "Dashboard | Barber Lab",
+  description: "Agenda do dia, métricas e status dos atendimentos.",
 }
 
 const Dashboard = async ({ searchParams }: DashboardProps) => {

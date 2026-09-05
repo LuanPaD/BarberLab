@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import BarbershopItem from "@/app/_components/barbershop-item"
 import Header from "@/app/_components/header"
@@ -325,6 +326,12 @@ export default async function BarbershopsPage({ searchParams }: any) {
       </div>
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: "Barbearias | Barber Lab",
+  description:
+    "Encontre barbearias perto de você, compare serviços e preços e agende seu horário online pelo Barber Lab.",
 }
 
 const sanitizeSearchParams = async (
