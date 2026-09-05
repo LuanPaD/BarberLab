@@ -5,6 +5,11 @@ import { Adapter } from "next-auth/adapters"
 import GoogleProvider from "next-auth/providers/google"
 import { db } from "./prisma"
 
+// Vitrine: todo usuário logado vira admin da barbearia indicada.
+const DEMO_MODE = process.env.DEMO_MODE === "true"
+const DEMO_BARBERSHOP_ID = process.env.DEMO_BARBERSHOP_ID?.trim()
+const isDemo = DEMO_MODE && !!DEMO_BARBERSHOP_ID
+
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
@@ -14,25 +19,27 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    // Estratégia "database": o `user` aqui é o registro completo vindo do
-    // PrismaAdapter, então `role` e `barbershopId` já chegam sem query extra.
     async session({ session, user }) {
       session.user = {
         ...session.user,
         id: user.id,
-        role: user.role ?? Role.CUSTOMER,
-        barbershopId: user.barbershopId ?? null,
+        role: isDemo ? Role.BARBER_ADMIN : (user.role ?? Role.CUSTOMER),
+        barbershopId: isDemo
+          ? DEMO_BARBERSHOP_ID!
+          : (user.barbershopId ?? null),
       }
       return session
     },
-    // Não é chamado enquanto a estratégia for "database". Mantido para que a
-    // troca para `strategy: "jwt"` não exija reescrever o enriquecimento.
+    // Inerte com a estratégia "database"; mantido caso mude para "jwt".
     async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id
-        token.role = (user as { role?: Role }).role ?? Role.CUSTOMER
-        token.barbershopId =
-          (user as { barbershopId?: string | null }).barbershopId ?? null
+        token.role = isDemo
+          ? Role.BARBER_ADMIN
+          : ((user as { role?: Role }).role ?? Role.CUSTOMER)
+        token.barbershopId = isDemo
+          ? DEMO_BARBERSHOP_ID!
+          : ((user as { barbershopId?: string | null }).barbershopId ?? null)
       }
 
       if (trigger === "update" && token.id) {
@@ -61,10 +68,6 @@ export const authOptions: AuthOptions = {
 
 export const auth = () => getServerSession(authOptions)
 
-/**
- * Garante que o usuário logado é admin de uma barbearia e devolve o
- * `barbershopId` dele. Base de toda checagem de escopo do painel admin.
- */
 export const requireBarbershopAdmin = async () => {
   const session = await auth()
 
