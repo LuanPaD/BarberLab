@@ -38,7 +38,6 @@ const PASSOS: Passo[] = [
   },
 ]
 
-/** Pega a versão visível da marca — a barra lateral no desktop, a de baixo no celular. */
 const elementoVisivel = (marca: string) =>
   Array.from(
     document.querySelectorAll<HTMLElement>(`[data-tour="${marca}"]`),
@@ -60,8 +59,6 @@ const OnboardingTour = () => {
 
     if (steps.length === 0) return
 
-    // Só marca como concluído quando o guia realmente encerra: se o barbeiro
-    // fechar a aba no meio, o guia volta no próximo acesso.
     const encerrar = () => {
       void completeOnboarding()
     }

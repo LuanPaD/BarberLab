@@ -9,8 +9,7 @@ const nextConfig = {
     root: rootDir,
   },
   images: {
-    // O barbeiro cola a URL da foto no painel, então o host não é conhecido de
-    // antemão. Só a barbearia administradora consegue gravar esse campo.
+    // O barbeiro cola a URL da foto no painel; o host não é conhecido antes.
     remotePatterns: [
       { protocol: "https", hostname: "**" },
     ],

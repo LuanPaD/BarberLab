@@ -10,7 +10,6 @@ interface ErrorProps {
   reset: () => void
 }
 
-// Isola a falha no painel: o cliente continua navegando pelo resto do site.
 const AdminError = ({ error, reset }: ErrorProps) => {
   useEffect(() => {
     console.error("[erro no painel]", error.digest ?? "", error)

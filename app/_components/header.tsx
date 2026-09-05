@@ -28,7 +28,6 @@ const filterSearchableElements = (searchTerm: string) => {
 }
 
 interface HeaderProps {
-  /** Venda unitária: não há catálogo nem busca para oferecer. */
   singleTenant?: boolean
 }
 

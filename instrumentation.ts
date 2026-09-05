@@ -1,8 +1,3 @@
-/**
- * Roda uma vez, quando o servidor sobe. Serve para gritar cedo sobre a
- * configuração de ambiente — é mais barato descobrir aqui do que depois de o
- * primeiro cliente entrar. Quando o Sentry entrar, `onRequestError` mora aqui.
- */
 export async function register() {
   if (process.env.NEXT_RUNTIME !== "nodejs") return
 

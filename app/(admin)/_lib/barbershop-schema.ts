@@ -1,6 +1,5 @@
 import { z } from "zod"
 
-/** Aceita (11) 99999-9999, 11999999999, +55 11 99999-9999 e afins. */
 const phone = z
   .string()
   .trim()

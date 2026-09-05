@@ -22,7 +22,6 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 export default async function BarbershopPage({ params }: any) {
   const { id } = await params
 
-  // Venda unitária: a barbearia da casa mora na home; qualquer outra não existe.
   if (isSingleTenant) {
     if (id === SINGLE_BARBERSHOP_ID) redirect("/")
     notFound()

@@ -15,7 +15,6 @@ interface HomeProps {
   searchParams: Promise<{ erro?: string }>
 }
 
-/** No modo barbearia única a home é a loja, e o título precisa dizer isso. */
 export async function generateMetadata(): Promise<Metadata> {
   if (!isSingleTenant) return {}
 
@@ -31,7 +30,6 @@ export async function generateMetadata(): Promise<Metadata> {
 const Home = async ({ searchParams }: HomeProps) => {
   const { erro } = await searchParams
 
-  // Catálogo com várias barbearias: o comportamento padrão.
   if (!isSingleTenant) {
     return <CatalogHome erro={erro} />
   }

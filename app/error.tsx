@@ -12,7 +12,6 @@ interface ErrorProps {
 
 const ErrorBoundary = ({ error, reset }: ErrorProps) => {
   useEffect(() => {
-    // Ponto único de captura: quando o Sentry entrar, é aqui que ele escuta.
     console.error("[erro na rota]", error.digest ?? "", error)
   }, [error])
 

@@ -19,7 +19,6 @@ import SignInDialog from "./sign-in-dialog"
 import AdminPanelLink from "./admin-panel-link"
 
 interface SidebarSheetProps {
-  /** Venda unitária: a busca por categoria leva a um catálogo que não existe. */
   singleTenant?: boolean
 }
 

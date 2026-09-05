@@ -16,7 +16,6 @@ const schema = z.object({
     .or(z.literal("")),
 })
 
-/** Cada pessoa só altera o próprio cadastro: o id vem da sessão, não do input. */
 export const updateOwnPhone = async (input: unknown) => {
   const session = await auth()
   if (!session?.user?.id) {

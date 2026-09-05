@@ -2,7 +2,6 @@ const Bar = ({ className }: { className: string }) => (
   <div className={`bg-muted/60 animate-pulse rounded-md ${className}`} />
 )
 
-/** Esqueleto genérico enquanto a rota carrega. */
 const PageSkeleton = () => (
   <div className="mx-auto max-w-5xl space-y-6 p-5 lg:px-8 lg:py-10">
     <div className="space-y-3">

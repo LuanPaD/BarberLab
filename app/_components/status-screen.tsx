@@ -9,7 +9,6 @@ interface StatusScreenProps {
   children?: React.ReactNode
 }
 
-/** Tela cheia usada pelas fronteiras de erro e pelo 404. */
 const StatusScreen = ({
   icon,
   eyebrow,

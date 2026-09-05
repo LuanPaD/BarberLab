@@ -1,25 +1,12 @@
-/**
- * Configuração de implantação. Só use em Server Components e Server Actions —
- * nada aqui tem prefixo `NEXT_PUBLIC_`.
- */
+// Servidor apenas: nada aqui tem prefixo NEXT_PUBLIC_.
 
-/**
- * Vitrine: todo usuário logado vira admin da barbearia indicada.
- * PRECISA estar desligado ao vender para um cliente real.
- */
 export const DEMO_BARBERSHOP_ID = process.env.DEMO_BARBERSHOP_ID?.trim() || null
 export const isDemo = process.env.DEMO_MODE === "true" && !!DEMO_BARBERSHOP_ID
 
-/**
- * Venda unitária: quando preenchido, o sistema atende uma barbearia só.
- * A home vira a página dela, o catálogo e a busca saem de cena.
- * Vazio = catálogo com todas as barbearias (o comportamento original).
- */
 export const SINGLE_BARBERSHOP_ID =
   process.env.SINGLE_BARBERSHOP_ID?.trim() || null
 export const isSingleTenant = !!SINGLE_BARBERSHOP_ID
 
-/** Segredo de exemplo que veio do repositório; não pode ir para produção. */
 const SEGREDO_DE_EXEMPLO = "SKL32!@DISDNBS!"
 
 interface Aviso {
@@ -27,11 +14,6 @@ interface Aviso {
   mensagem: string
 }
 
-/**
- * Confere as variáveis de ambiente que costumam ser esquecidas na virada para
- * produção. Devolve a lista em vez de lançar: derrubar a aplicação por causa de
- * um aviso seria pior do que o problema que ele denuncia.
- */
 export const checkDeployment = (): Aviso[] => {
   const avisos: Aviso[] = []
   const emProducao = process.env.NODE_ENV === "production"

@@ -31,20 +31,11 @@ import type { Barbershop, BarbershopService } from "@prisma/client"
 interface BarbershopDetailProps {
   barbershop: Barbershop & { services: BarbershopService[] }
   openingHours: OpeningHourSlot[]
-  /**
-   * Sobreposição de navegação em cima da foto (voltar + menu). Some quando a
-   * página já tem um Header próprio, como na home do modo barbearia única.
-   */
   showHeroNav?: boolean
   singleTenant?: boolean
-  /** Espaço no topo da coluna lateral; a home única usa para as reservas. */
   sidebarSlot?: React.ReactNode
 }
 
-/**
- * Corpo da página de uma barbearia. Vive à parte porque é renderizado em dois
- * lugares: em `/barbershops/[id]` e, no modo de venda unitária, na home.
- */
 const BarbershopDetail = ({
   barbershop,
   openingHours,

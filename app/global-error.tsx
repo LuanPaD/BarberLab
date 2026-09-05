@@ -8,8 +8,7 @@ interface GlobalErrorProps {
   reset: () => void
 }
 
-// Última barreira: só dispara quando o próprio layout raiz falha, por isso
-// precisa trazer <html> e <body> e não pode depender de nenhum componente.
+// Precisa trazer <html> e <body>: dispara quando o layout raiz falha.
 const GlobalError = ({ error, reset }: GlobalErrorProps) => {
   useEffect(() => {
     console.error("[erro no layout raiz]", error.digest ?? "", error)

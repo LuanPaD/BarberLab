@@ -24,7 +24,6 @@ interface CatalogHomeProps {
   erro?: string
 }
 
-/** Home original: vitrine com todas as barbearias, busca e recomendações. */
 const CatalogHome = async ({ erro }: CatalogHomeProps) => {
   const session = await getServerSession(authOptions)
   const barbershops = await db.barbershop.findMany({})

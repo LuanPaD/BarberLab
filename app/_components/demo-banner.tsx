@@ -1,11 +1,6 @@
 import { isDemo } from "@/app/_lib/deployment"
 import { FlaskConicalIcon } from "lucide-react"
 
-/**
- * Deixa o modo demonstração visível. Se um dia o sistema for vendido e alguém
- * esquecer de desligar a variável, a falha aparece na tela em vez de ficar
- * silenciosa — que é o pior jeito de descobrir que todo mundo virou admin.
- */
 const DemoBanner = () => {
   if (!isDemo) return null
 

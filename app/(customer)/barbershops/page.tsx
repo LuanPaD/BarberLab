@@ -29,7 +29,6 @@ interface BarbershopsPageProps {
 }
 
 export default async function BarbershopsPage({ searchParams }: any) {
-  // Venda unitária: não existe catálogo, só a barbearia da casa.
   if (isSingleTenant) redirect("/")
 
   searchParams = await sanitizeSearchParams(searchParams)

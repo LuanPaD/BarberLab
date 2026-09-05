@@ -36,7 +36,6 @@ const BarbershopProfileForm = ({ profile }: BarbershopProfileFormProps) => {
 
   const phones = useFieldArray({
     control: form.control,
-    // O schema guarda strings puras; o RHF precisa do caminho para o array.
     name: "phones" as never,
   })
 
