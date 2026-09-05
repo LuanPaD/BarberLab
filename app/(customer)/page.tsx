@@ -57,14 +57,10 @@ const Home = async ({ searchParams }: HomeProps) => {
                   </h1>
                   <div className="text-muted-foreground flex items-center gap-2 lg:text-xl">
                     <CalendarIcon className="h-4 w-4 lg:h-5 lg:w-5" />
-                    <p>
-                      <span className="capitalize">
-                        {format(new Date(), "EEEE, dd", { locale: ptBR })}
-                      </span>
-                      <span>&nbsp;de&nbsp;</span>
-                      <span className="capitalize">
-                        {format(new Date(), "MMMM", { locale: ptBR })}
-                      </span>
+                    <p className="first-letter:uppercase">
+                      {format(new Date(), "EEEE, dd 'de' MMMM", {
+                        locale: ptBR,
+                      })}
                     </p>
                   </div>
                 </div>

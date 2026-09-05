@@ -29,7 +29,7 @@ import {
 import { DialogClose } from "@radix-ui/react-dialog"
 import { deleteBooking } from "../_actions/delete-booking"
 import { toast } from "sonner"
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import BookingSummary from "./booking-summary"
 import WhatsAppButton from "./whatsapp-button"
 import { buildCustomerConfirmationMessage } from "../_lib/whatsapp"
@@ -57,26 +57,28 @@ interface BookingItemProps {
 const BookingItem = ({ booking }: BookingItemProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const { data: session } = useSession()
+  const [isCanceling, startCanceling] = useTransition()
   const {
     service: { barbershop },
   } = booking
   const isConfirmed = isFuture(booking.date)
-  const handleCancelBooking = async () => {
-    try {
-      const result = await deleteBooking(booking.id)
+  const handleCancelBooking = () =>
+    startCanceling(async () => {
+      try {
+        const result = await deleteBooking(booking.id)
 
-      if (!result.ok) {
-        toast.error(result.error)
-        return
+        if (!result.ok) {
+          toast.error(result.error)
+          return
+        }
+
+        setIsSheetOpen(false)
+        toast.success("Reserva cancelada com sucesso!")
+      } catch (error) {
+        console.error(error)
+        toast.error("Erro ao cancelar reserva. Tente novamente.")
       }
-
-      setIsSheetOpen(false)
-      toast.success("Reserva cancelada com sucesso!")
-    } catch (error) {
-      console.error(error)
-      toast.error("Erro ao cancelar reserva. Tente novamente.")
-    }
-  }
+    })
   const handleSheetOpenChange = (isOpen: boolean) => {
     setIsSheetOpen(isOpen)
   }
@@ -220,9 +222,10 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                       <Button
                         variant="destructive"
                         onClick={handleCancelBooking}
+                        disabled={isCanceling}
                         className="w-full"
                       >
-                        Confirmar
+                        {isCanceling ? "Cancelando..." : "Confirmar"}
                       </Button>
                     </DialogClose>
                   </DialogFooter>

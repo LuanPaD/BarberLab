@@ -13,7 +13,7 @@ import {
 } from "./ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, useTransition } from "react"
 import { addMinutes, isPast, set } from "date-fns"
 import { createBooking } from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
@@ -101,6 +101,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   )
   const [unavailable, setUnavailable] = useState<UnavailableInterval[]>([])
   const [bookingSheetIsOpen, setBookingSheetIsOpen] = useState(false)
+  const [isCreating, startCreating] = useTransition()
 
   useEffect(() => {
     const fetch = async () => {
@@ -144,46 +145,47 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     setSelectedTime(time)
   }
 
-  const handleCreateBooking = async () => {
-    try {
-      if (!selectedDate) return
-      const result = await createBooking({
-        serviceId: service.id,
-        date: selectedDate,
-      })
-
-      if (!result.ok) {
-        toast.error(result.error)
-        return
-      }
-
-      handleBookingSheetOpenChange()
-
-      const whatsappUrl = buildWhatsAppUrl({
-        phone: barbershop.phones?.[0],
-        message: buildCustomerConfirmationMessage({
-          serviceName: service.name,
+  const handleCreateBooking = () =>
+    startCreating(async () => {
+      try {
+        if (!selectedDate) return
+        const result = await createBooking({
+          serviceId: service.id,
           date: selectedDate,
-          barbershopName: barbershop.name,
-          customerName: data?.user?.name,
-          price: Number(service.price),
-        }),
-      })
+        })
 
-      // Uma ação só: com duas o sonner espreme a coluna de texto.
-      toast.success("Reserva criada com sucesso!", {
-        description: "Confirme com a barbearia pelo WhatsApp.",
-        duration: 10000,
-        action: {
-          label: "Confirmar",
-          onClick: () => window.open(whatsappUrl, "_blank"),
-        },
-      })
-    } catch (error) {
-      console.error(error)
-      toast.error("Erro ao criar reserva!")
-    }
-  }
+        if (!result.ok) {
+          toast.error(result.error)
+          return
+        }
+
+        handleBookingSheetOpenChange()
+
+        const whatsappUrl = buildWhatsAppUrl({
+          phone: barbershop.phones?.[0],
+          message: buildCustomerConfirmationMessage({
+            serviceName: service.name,
+            date: selectedDate,
+            barbershopName: barbershop.name,
+            customerName: data?.user?.name,
+            price: Number(service.price),
+          }),
+        })
+
+        // Uma ação só: com duas o sonner espreme a coluna de texto.
+        toast.success("Reserva criada com sucesso!", {
+          description: "Confirme com a barbearia pelo WhatsApp.",
+          duration: 10000,
+          action: {
+            label: "Confirmar",
+            onClick: () => window.open(whatsappUrl, "_blank"),
+          },
+        })
+      } catch (error) {
+        console.error(error)
+        toast.error("Erro ao criar reserva!")
+      }
+    })
 
   const timeList = useMemo(() => {
     if (!selectedDay) return []
@@ -236,7 +238,10 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   Reservar
                 </Button>
 
-                <SheetContent className="px-0" aria-describedby={undefined}>
+                <SheetContent
+                  className="w-[92%] px-0 sm:max-w-md"
+                  aria-describedby={undefined}
+                >
                   <SheetHeader className="flex items-center">
                     <SheetTitle className="flex items-center">
                       Fazer Reserva
@@ -320,9 +325,9 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   <SheetFooter className="mt-5 px-5">
                     <Button
                       onClick={handleCreateBooking}
-                      disabled={!selectedDay || !selectedTime}
+                      disabled={!selectedDay || !selectedTime || isCreating}
                     >
-                      Confirmar
+                      {isCreating ? "Confirmando..." : "Confirmar"}
                     </Button>
                   </SheetFooter>
                 </SheetContent>
