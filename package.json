@@ -29,8 +29,6 @@
     "@auth/prisma-adapter": "^2.11.3",
     "@bprogress/next": "^3.2.12",
     "@hookform/resolvers": "^5.9.1",
-    "@neondatabase/serverless": "^1.1.0",
-    "@prisma/adapter-neon": "^7.10.0",
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "@radix-ui/react-avatar": "^1.2.6",
@@ -46,7 +44,6 @@
     "next": "^16.3.3",
     "next-auth": "^4.24.15",
     "next-themes": "^0.4.6",
-    "npm-check-updates": "^19.6.6",
     "pg": "^8.23.0",
     "react": "^19.2.8",
     "react-day-picker": "^9.14.0",
@@ -55,7 +52,6 @@
     "sonner": "^2.0.8",
     "tailwind-merge": "^3.6.0",
     "tailwindcss-animate": "^1.0.7",
-    "ws": "^8.21.3",
     "zod": "^4.5.4"
   },
   "devDependencies": {
@@ -74,6 +70,7 @@
     "git-commit-msg-linter": "^5.0.9",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
+    "npm-check-updates": "^23.1.0",
     "postcss": "^8.5.26",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",

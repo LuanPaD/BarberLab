@@ -4,6 +4,7 @@ import "./globals.css"
 import { Toaster } from "./_components/ui/sonner"
 import AuthProvider from "./_providers/auth"
 import ProgressProvider from "./_components/progress-bar"
+import DemoBanner from "./_components/demo-banner"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -59,6 +60,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className="dark">
       <body className={inter.className}>
+        <DemoBanner />
         <AuthProvider>
           <ProgressProvider>{children}</ProgressProvider>
         </AuthProvider>

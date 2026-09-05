@@ -3,12 +3,8 @@ import { Role } from "@prisma/client"
 import { AuthOptions, getServerSession } from "next-auth"
 import { Adapter } from "next-auth/adapters"
 import GoogleProvider from "next-auth/providers/google"
+import { DEMO_BARBERSHOP_ID, isDemo } from "./deployment"
 import { db } from "./prisma"
-
-// Vitrine: todo usuário logado vira admin da barbearia indicada.
-const DEMO_MODE = process.env.DEMO_MODE === "true"
-const DEMO_BARBERSHOP_ID = process.env.DEMO_BARBERSHOP_ID?.trim()
-const isDemo = DEMO_MODE && !!DEMO_BARBERSHOP_ID
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db) as Adapter,
