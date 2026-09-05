@@ -81,7 +81,7 @@ const Footer = () => {
                 <ul className="text-muted-foreground space-y-2 text-sm">
                   <li>
                     <Link
-                      href="#"
+                      href="/sobre"
                       className="hover:text-primary transition-colors"
                     >
                       Sobre nós
@@ -89,7 +89,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
-                      href="#"
+                      href="/carreiras"
                       className="hover:text-primary transition-colors"
                     >
                       Carreiras
@@ -97,7 +97,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
-                      href="#"
+                      href="/parceiros"
                       className="hover:text-primary transition-colors"
                     >
                       Parceiros
@@ -105,7 +105,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
-                      href="#"
+                      href="/contato"
                       className="hover:text-primary transition-colors"
                     >
                       Contato
@@ -157,13 +157,22 @@ const Footer = () => {
                 </Link>
               </p>
               <div className="text-muted-foreground flex items-center gap-6 text-sm">
-                <Link href="#" className="hover:text-primary transition-colors">
+                <Link
+                  href="/privacidade"
+                  className="hover:text-primary transition-colors"
+                >
                   Privacidade
                 </Link>
-                <Link href="#" className="hover:text-primary transition-colors">
+                <Link
+                  href="/termos"
+                  className="hover:text-primary transition-colors"
+                >
                   Termos
                 </Link>
-                <Link href="#" className="hover:text-primary transition-colors">
+                <Link
+                  href="/cookies"
+                  className="hover:text-primary transition-colors"
+                >
                   Cookies
                 </Link>
               </div>
