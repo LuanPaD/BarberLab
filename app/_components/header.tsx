@@ -14,14 +14,7 @@ import AdminPanelLink from "./admin-panel-link"
 
 const referenciaDoComponenteInput = searchInputRef
 
-/**
- * Filtra na página os elementos marcados com `data-search-name`.
- *
- * A lista costumava chegar por prop do Server Component. Com muitos itens o
- * payload da prop era quebrado em chunks e a árvore de `useId` divergia entre
- * SSR e hidratação, trocando os ids do Radix (erro de hidratação em
- * /bookings). Lendo do DOM não há prop, não há payload e nada quebra.
- */
+/** Filtra os elementos marcados com `data-search-name` na página atual. */
 const filterSearchableElements = (searchTerm: string) => {
   const elements = document.querySelectorAll<HTMLElement>("[data-search-name]")
 
@@ -63,7 +56,7 @@ const Header = () => {
             priority
             height={18}
             width={120}
-            className="lg:h-8 lg:w-auto"
+            className="h-auto lg:h-8 lg:w-auto"
           />
         </Link>
 

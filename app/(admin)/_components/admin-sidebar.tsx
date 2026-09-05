@@ -33,8 +33,14 @@ const AdminSidebar = ({
   return (
     <aside className="bg-card fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r lg:flex">
       <div className="flex h-[73px] items-center border-b px-6">
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <Image alt="Barber Lab" src="/logo.png" height={18} width={120} />
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            alt="Barber Lab"
+            src="/logo.png"
+            height={18}
+            width={120}
+            className="h-auto"
+          />
         </Link>
       </div>
 
