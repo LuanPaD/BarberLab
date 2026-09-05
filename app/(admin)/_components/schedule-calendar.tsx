@@ -3,7 +3,7 @@
 import { Calendar } from "@/app/_components/ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { usePathname, useRouter } from "next/navigation"
-import { useTransition } from "react"
+import { useEffect, useState } from "react"
 import { toDateParam } from "../_lib/format"
 
 interface ScheduleCalendarProps {
@@ -13,26 +13,25 @@ interface ScheduleCalendarProps {
 const ScheduleCalendar = ({ date }: ScheduleCalendarProps) => {
   const router = useRouter()
   const pathname = usePathname()
-  const [isPending, startTransition] = useTransition()
+  const [visibleMonth, setVisibleMonth] = useState(date)
 
+  useEffect(() => setVisibleMonth(date), [date])
+
+  // Trocar de mês é navegação visual e fica em estado local. Só a escolha de
+  // um dia muda a URL — antes cada mês disparava uma navegação, e cliques
+  // seguidos se perdiam no caminho.
   return (
     <Calendar
       mode="single"
       locale={ptBR}
       selected={date}
-      month={date}
-      onMonthChange={(month) =>
-        startTransition(() =>
-          router.push(`${pathname}?date=${toDateParam(month)}`),
-        )
-      }
-      onSelect={(selected) => {
-        if (!selected) return
-        startTransition(() =>
-          router.push(`${pathname}?date=${toDateParam(selected)}`),
-        )
+      month={visibleMonth}
+      onMonthChange={setVisibleMonth}
+      onSelect={(selectedDay) => {
+        if (!selectedDay) return
+        router.push(`${pathname}?date=${toDateParam(selectedDay)}`)
       }}
-      className={isPending ? "w-full opacity-60" : "w-full"}
+      className="w-full"
     />
   )
 }
