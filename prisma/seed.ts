@@ -122,6 +122,19 @@ async function seedDatabase() {
       }
     }
 
+    const descriptions = [
+      "Barbearia de bairro com cadeira clássica e navalha. Corte tradicional, barba feita com toalha quente e atendimento sem pressa.",
+      "Corte moderno, degradê e acabamento na navalha. Ambiente descontraído, com café enquanto você espera.",
+      "Especialistas em barba: modelagem, hidratação e finalização com produtos de barbearia. Também fazemos corte social.",
+      "Barbearia com pegada urbana, focada em degradê, freestyle e desenhos. Equipe jovem e atualizada nas tendências.",
+      "Atendimento familiar há mais de dez anos. Corte masculino, infantil e barba, com hora marcada e sem fila.",
+      "Corte executivo e barboterapia para quem sai do trabalho direto para cá. Agenda organizada e horário cumprido.",
+      "Do clássico ao contemporâneo: máquina, tesoura e navalha. Cada corte começa por uma conversa sobre o que você quer.",
+      "Barbearia com foco em acabamento: pezinho, sobrancelha e detalhes que fazem o corte durar mais.",
+      "Ambiente climatizado, produtos premium e profissionais qualificados. Corte, barba e tratamentos capilares.",
+      "Tradição de barbearia antiga com estrutura nova. Corte na tesoura, barba na navalha e hidratação capilar.",
+    ]
+
     const barbershops = []
     for (let i = 0; i < 10; i++) {
       const name = creativeNames[i]
@@ -139,8 +152,7 @@ async function seedDatabase() {
           name,
           address,
           phones: ["(11) 99999-9999"],
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac augue ullamcorper, pharetra orci mollis, auctor tellus.",
+          description: descriptions[i],
           imageUrl,
         },
       })
