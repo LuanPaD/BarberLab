@@ -60,7 +60,7 @@ const Header = ({ singleTenant = false }: HeaderProps) => {
             priority
             height={18}
             width={120}
-            className="h-auto lg:h-8 lg:w-auto"
+            className="h-auto w-auto lg:h-8"
           />
         </Link>
 

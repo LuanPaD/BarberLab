@@ -39,7 +39,8 @@ const AdminSidebar = ({
             src="/logo.png"
             height={18}
             width={120}
-            className="h-auto"
+            priority
+            className="h-auto w-auto"
           />
         </Link>
       </div>
