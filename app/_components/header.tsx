@@ -27,7 +27,12 @@ const filterSearchableElements = (searchTerm: string) => {
   })
 }
 
-const Header = () => {
+interface HeaderProps {
+  /** Venda unitária: não há catálogo nem busca para oferecer. */
+  singleTenant?: boolean
+}
+
+const Header = ({ singleTenant = false }: HeaderProps) => {
   const [searchTerm, setSearchTerm] = React.useState("")
   const [showSearch, setShowSearch] = React.useState(false)
 
@@ -69,13 +74,15 @@ const Header = () => {
             Início
             <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all group-hover:w-full"></span>
           </Link>
-          <Link
-            href="/barbershops"
-            className="text-foreground hover:text-primary group relative text-sm font-medium transition-colors"
-          >
-            Barbearias
-            <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all group-hover:w-full"></span>
-          </Link>
+          {!singleTenant && (
+            <Link
+              href="/barbershops"
+              className="text-foreground hover:text-primary group relative text-sm font-medium transition-colors"
+            >
+              Barbearias
+              <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all group-hover:w-full"></span>
+            </Link>
+          )}
           <Link
             href="/bookings"
             className="text-foreground hover:text-primary group relative text-sm font-medium transition-colors"
@@ -89,16 +96,18 @@ const Header = () => {
         <div className="hidden lg:flex lg:items-center lg:gap-4">
           {/* Botão de pesquisa que abre um input ao lado */}
           <div className="relative flex items-center">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hover:bg-primary/10"
-              onClick={handleSearchClick}
-              aria-label="Pesquisar"
-              type="button"
-            >
-              <SearchIcon className="h-5 w-5" />
-            </Button>
+            {!singleTenant && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="hover:bg-primary/10"
+                onClick={handleSearchClick}
+                aria-label="Pesquisar"
+                type="button"
+              >
+                <SearchIcon className="h-5 w-5" />
+              </Button>
+            )}
 
             {showSearch && (
               <input
@@ -123,7 +132,13 @@ const Header = () => {
           <UserMenu />
 
           <Button className="bg-primary hover:bg-primary/50" asChild>
-            <Link href="/barbershops?tag=recomendados">Agendar</Link>
+            <Link
+              href={
+                singleTenant ? "/#servicos" : "/barbershops?tag=recomendados"
+              }
+            >
+              Agendar
+            </Link>
           </Button>
         </div>
 
@@ -134,7 +149,7 @@ const Header = () => {
               <MenuIcon />
             </Button>
           </SheetTrigger>
-          <SidebarSheet />
+          <SidebarSheet singleTenant={singleTenant} />
         </Sheet>
       </CardContent>
     </Card>

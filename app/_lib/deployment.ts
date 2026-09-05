@@ -10,6 +10,15 @@
 export const DEMO_BARBERSHOP_ID = process.env.DEMO_BARBERSHOP_ID?.trim() || null
 export const isDemo = process.env.DEMO_MODE === "true" && !!DEMO_BARBERSHOP_ID
 
+/**
+ * Venda unitária: quando preenchido, o sistema atende uma barbearia só.
+ * A home vira a página dela, o catálogo e a busca saem de cena.
+ * Vazio = catálogo com todas as barbearias (o comportamento original).
+ */
+export const SINGLE_BARBERSHOP_ID =
+  process.env.SINGLE_BARBERSHOP_ID?.trim() || null
+export const isSingleTenant = !!SINGLE_BARBERSHOP_ID
+
 /** Segredo de exemplo que veio do repositório; não pode ir para produção. */
 const SEGREDO_DE_EXEMPLO = "SKL32!@DISDNBS!"
 
@@ -60,6 +69,14 @@ export const checkDeployment = (): Aviso[] => {
     avisos.push({
       nivel: "aviso",
       mensagem: `NEXT_AUTH_SECRET tem ${segredo.length} caracteres; o recomendado são 32 ou mais.`,
+    })
+  }
+
+  if (isSingleTenant && isDemo && SINGLE_BARBERSHOP_ID !== DEMO_BARBERSHOP_ID) {
+    avisos.push({
+      nivel: "erro",
+      mensagem:
+        "SINGLE_BARBERSHOP_ID e DEMO_BARBERSHOP_ID apontam para barbearias diferentes: o visitante veria uma loja e administraria outra.",
     })
   }
 

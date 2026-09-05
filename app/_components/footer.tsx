@@ -1,6 +1,7 @@
 import { CardContent } from "./ui/card"
 import { MapPinIcon, MessageCircleIcon, MailIcon } from "lucide-react"
 import Link from "next/link"
+import { isSingleTenant } from "@/app/_lib/deployment"
 
 const Footer = () => {
   return (
@@ -42,7 +43,11 @@ const Footer = () => {
                 <ul className="text-muted-foreground space-y-2 text-sm">
                   <li>
                     <Link
-                      href="/barbershops?service=Cabelo"
+                      href={
+                        isSingleTenant
+                          ? "/#servicos"
+                          : "/barbershops?service=Cabelo"
+                      }
                       className="hover:text-primary transition-colors"
                     >
                       Corte de Cabelo
@@ -50,7 +55,11 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
-                      href="/barbershops?service=Barba"
+                      href={
+                        isSingleTenant
+                          ? "/#servicos"
+                          : "/barbershops?service=Barba"
+                      }
                       className="hover:text-primary transition-colors"
                     >
                       Barba
@@ -58,7 +67,11 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
-                      href="/barbershops?service=Acabamento"
+                      href={
+                        isSingleTenant
+                          ? "/#servicos"
+                          : "/barbershops?service=Acabamento"
+                      }
                       className="hover:text-primary transition-colors"
                     >
                       Acabamento
@@ -66,7 +79,11 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
-                      href="/barbershops?service=Massagem"
+                      href={
+                        isSingleTenant
+                          ? "/#servicos"
+                          : "/barbershops?service=Massagem"
+                      }
                       className="hover:text-primary transition-colors"
                     >
                       Massagem

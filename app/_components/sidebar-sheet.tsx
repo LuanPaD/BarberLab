@@ -12,7 +12,12 @@ import { Avatar, AvatarImage } from "./ui/avatar"
 import SignInDialog from "./sign-in-dialog"
 import AdminPanelLink from "./admin-panel-link"
 
-const SidebarSheet = () => {
+interface SidebarSheetProps {
+  /** Venda unitária: a busca por categoria leva a um catálogo que não existe. */
+  singleTenant?: boolean
+}
+
+const SidebarSheet = ({ singleTenant = false }: SidebarSheetProps) => {
   const { data } = useSession()
   const handleLogoutClick = () => signOut()
 
@@ -69,23 +74,25 @@ const SidebarSheet = () => {
         <AdminPanelLink className="w-full justify-start gap-2" />
       </div>
 
-      <div className="flex flex-col gap-2 border-b border-solid py-5">
-        {quickSearchOptions.map((option) => (
-          <SheetClose key={option.title} asChild>
-            <Button className="justify-start gap-2" variant="ghost" asChild>
-              <Link href={`/barbershops?service=${option.title}`}>
-                <Image
-                  alt={option.title}
-                  src={option.imageUrl}
-                  height={18}
-                  width={18}
-                />
-                {option.title}
-              </Link>
-            </Button>
-          </SheetClose>
-        ))}
-      </div>
+      {!singleTenant && (
+        <div className="flex flex-col gap-2 border-b border-solid py-5">
+          {quickSearchOptions.map((option) => (
+            <SheetClose key={option.title} asChild>
+              <Button className="justify-start gap-2" variant="ghost" asChild>
+                <Link href={`/barbershops?service=${option.title}`}>
+                  <Image
+                    alt={option.title}
+                    src={option.imageUrl}
+                    height={18}
+                    width={18}
+                  />
+                  {option.title}
+                </Link>
+              </Button>
+            </SheetClose>
+          ))}
+        </div>
+      )}
 
       {data?.user && (
         <div className="flex flex-col gap-2 py-5">

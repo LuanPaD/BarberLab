@@ -1,4 +1,6 @@
 import type { Metadata } from "next"
+import { redirect } from "next/navigation"
+import { isSingleTenant } from "@/app/_lib/deployment"
 import Link from "next/link"
 import BarbershopItem from "@/app/_components/barbershop-item"
 import Header from "@/app/_components/header"
@@ -27,6 +29,9 @@ interface BarbershopsPageProps {
 }
 
 export default async function BarbershopsPage({ searchParams }: any) {
+  // Venda unitária: não existe catálogo, só a barbearia da casa.
+  if (isSingleTenant) redirect("/")
+
   searchParams = await sanitizeSearchParams(searchParams)
 
   const barbershops = await getBarbershopsBySearchParams(searchParams)
