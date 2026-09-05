@@ -24,10 +24,10 @@ const Privacidade = () => {
           qualquer assunto relacionado a esta política, incluindo pedidos sobre
           seus dados, escreva para{" "}
           <a
-            href="mailto:contato@barberlab.com.br"
+            href="mailto:lptech.contato.labs@gmail.com"
             className="text-primary hover:underline"
           >
-            contato@barberlab.com.br
+            lptech.contato.labs@gmail.com
           </a>
           .
         </p>

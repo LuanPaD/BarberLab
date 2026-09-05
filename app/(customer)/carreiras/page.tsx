@@ -36,7 +36,7 @@ const Carreiras = () => {
           quando abrir algo compatível.
         </p>
         <Button variant="outline" className="mt-2 w-full sm:w-auto" asChild>
-          <a href="mailto:contato@barberlab.com.br?subject=Candidatura%20espont%C3%A2nea">
+          <a href="mailto:lptech.contato.labs@gmail.com?subject=Candidatura%20espont%C3%A2nea">
             <MailIcon />
             Enviar candidatura
           </a>
