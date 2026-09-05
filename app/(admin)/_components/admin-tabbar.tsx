@@ -18,6 +18,7 @@ const AdminTabBar = () => {
             <Link
               key={item.href}
               href={item.href}
+              data-tour={item.tour}
               aria-current={active ? "page" : undefined}
               className={cn(
                 "flex flex-col items-center gap-1 py-3 text-[11px] font-medium transition-colors",

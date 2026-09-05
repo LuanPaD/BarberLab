@@ -19,20 +19,21 @@ enum BookingStatus {
 }
 
 model User {
-  id            String      @id @default(cuid())
-  name          String?
-  email         String      @unique
-  emailVerified DateTime?
-  image         String?
-  phone         String?
-  role          Role        @default(CUSTOMER)
-  barbershopId  String?
-  barbershop    Barbershop? @relation("BarbershopStaff", fields: [barbershopId], references: [id], onDelete: SetNull)
-  accounts      Account[]
-  sessions      Session[]
-  bookings      Booking[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id               String      @id @default(cuid())
+  name             String?
+  email            String      @unique
+  emailVerified    DateTime?
+  image            String?
+  phone            String?
+  role             Role        @default(CUSTOMER)
+  onboardingDoneAt DateTime?
+  barbershopId     String?
+  barbershop       Barbershop? @relation("BarbershopStaff", fields: [barbershopId], references: [id], onDelete: SetNull)
+  accounts         Account[]
+  sessions         Session[]
+  bookings         Booking[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 
   @@index([barbershopId])
 }

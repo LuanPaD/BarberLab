@@ -5,6 +5,7 @@ import { redirect } from "next/navigation"
 import AdminSidebar from "./_components/admin-sidebar"
 import AdminTabBar from "./_components/admin-tabbar"
 import AdminTopbar from "./_components/admin-topbar"
+import OnboardingTour from "./_components/onboarding-tour"
 
 export const metadata: Metadata = {
   title: "Painel | Barber Lab",
@@ -23,10 +24,16 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
     redirect(session?.user ? "/?erro=acesso-negado" : "/")
   }
 
-  const barbershop = await db.barbershop.findUnique({
-    where: { id: admin.barbershopId },
-    select: { name: true, imageUrl: true },
-  })
+  const [barbershop, user] = await Promise.all([
+    db.barbershop.findUnique({
+      where: { id: admin.barbershopId },
+      select: { name: true, imageUrl: true },
+    }),
+    db.user.findUnique({
+      where: { id: admin.userId },
+      select: { onboardingDoneAt: true },
+    }),
+  ])
 
   if (!barbershop) {
     redirect("/?erro=barbearia-nao-encontrada")
@@ -47,6 +54,8 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
       <main className="pb-24 lg:pb-0 lg:pl-64">{children}</main>
 
       <AdminTabBar />
+
+      {!user?.onboardingDoneAt && <OnboardingTour />}
     </div>
   )
 }

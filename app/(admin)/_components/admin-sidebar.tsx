@@ -73,6 +73,7 @@ const AdminSidebar = ({
             <Link
               key={item.href}
               href={item.href}
+              data-tour={item.tour}
               aria-current={active ? "page" : undefined}
               className={cn(
                 "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
