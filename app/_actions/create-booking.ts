@@ -10,11 +10,14 @@ import {
   findDayHours,
   withDefaults,
 } from "../_lib/opening-hours"
+import { LIMITES, dentroDoLimite, erroDeLimite } from "../_lib/rate-limit"
 
 interface CreateBookingParams {
   serviceId: string
   date: Date
 }
+
+const MAXIMO_DE_RESERVAS_EM_ABERTO = 3
 
 const overlaps = (aStart: Date, aEnd: Date, bStart: Date, bEnd: Date) =>
   aStart < bEnd && aEnd > bStart
@@ -30,6 +33,15 @@ export const createBooking = async ({
     return { ok: false as const, error: "Você precisa estar logado." }
   }
 
+  const limite = dentroDoLimite(
+    `reserva:${session.user.id}`,
+    LIMITES.criarReserva,
+  )
+
+  if (!limite.permitido) {
+    return erroDeLimite(limite.segundosParaLiberar)
+  }
+
   const bookingDate = new Date(date)
 
   if (Number.isNaN(bookingDate.getTime())) {
@@ -38,6 +50,21 @@ export const createBooking = async ({
 
   if (bookingDate.getTime() <= Date.now()) {
     return { ok: false as const, error: "Escolha um horário no futuro." }
+  }
+
+  const emAberto = await db.booking.count({
+    where: {
+      userId: session.user.id,
+      status: BookingStatus.CONFIRMED,
+      date: { gte: new Date() },
+    },
+  })
+
+  if (emAberto >= MAXIMO_DE_RESERVAS_EM_ABERTO) {
+    return {
+      ok: false as const,
+      error: `Você já tem ${MAXIMO_DE_RESERVAS_EM_ABERTO} horários marcados. Conclua ou cancele um para marcar outro.`,
+    }
   }
 
   const service = await db.barbershopService.findUnique({

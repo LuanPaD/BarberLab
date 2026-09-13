@@ -5,6 +5,7 @@ import { db } from "@/app/_lib/prisma"
 import { Prisma } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 import { serviceSchema } from "../_lib/service-schema"
+import { LIMITES, dentroDoLimite, erroDeLimite } from "@/app/_lib/rate-limit"
 
 const revalidateServices = () => {
   revalidatePath("/services")
@@ -17,6 +18,14 @@ export const upsertService = async (input: unknown) => {
   const admin = await requireBarbershopAdmin()
   if (!admin) {
     return { ok: false as const, error: "Acesso negado." }
+  }
+
+  const limite = dentroDoLimite(
+    `painel:${admin.barbershopId}`,
+    LIMITES.escritaDoPainel,
+  )
+  if (!limite.permitido) {
+    return erroDeLimite(limite.segundosParaLiberar)
   }
 
   const parsed = serviceSchema.safeParse(input)
@@ -59,6 +68,14 @@ export const setServiceActive = async (
     return { ok: false as const, error: "Acesso negado." }
   }
 
+  const limite = dentroDoLimite(
+    `painel:${admin.barbershopId}`,
+    LIMITES.escritaDoPainel,
+  )
+  if (!limite.permitido) {
+    return erroDeLimite(limite.segundosParaLiberar)
+  }
+
   const result = await db.barbershopService.updateMany({
     where: { id: serviceId, barbershopId: admin.barbershopId },
     data: { isActive },
@@ -77,6 +94,14 @@ export const deleteService = async (serviceId: string) => {
   const admin = await requireBarbershopAdmin()
   if (!admin) {
     return { ok: false as const, error: "Acesso negado." }
+  }
+
+  const limite = dentroDoLimite(
+    `painel:${admin.barbershopId}`,
+    LIMITES.escritaDoPainel,
+  )
+  if (!limite.permitido) {
+    return erroDeLimite(limite.segundosParaLiberar)
   }
 
   const service = await db.barbershopService.findFirst({
