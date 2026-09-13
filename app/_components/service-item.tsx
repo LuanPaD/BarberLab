@@ -26,6 +26,7 @@ import {
 import {
   buildDaySlots,
   findDayHours,
+  isClosedOn,
   type OpeningHourSlot,
 } from "../_lib/opening-hours"
 import { Dialog, DialogContent } from "./ui/dialog"
@@ -88,19 +89,30 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const [unavailable, setUnavailable] = useState<UnavailableInterval[]>([])
   const [openingHours, setOpeningHours] = useState<OpeningHourSlot[]>([])
   const [bookingSheetIsOpen, setBookingSheetIsOpen] = useState(false)
+  const [isLoadingSlots, setIsLoadingSlots] = useState(false)
   const [isCreating, startCreating] = useTransition()
 
   useEffect(() => {
-    const fetch = async () => {
-      if (!selectedDay) return
+    if (!selectedDay) return
+
+    let current = true
+    setIsLoadingSlots(true)
+
+    const load = async () => {
       const [intervals, hours] = await Promise.all([
         getUnavailableIntervals({ date: selectedDay, serviceId: service.id }),
         getServiceOpeningHours(service.id),
       ])
+      if (!current) return
       setUnavailable(intervals)
       setOpeningHours(hours)
+      setIsLoadingSlots(false)
     }
-    fetch()
+
+    load()
+    return () => {
+      current = false
+    }
   }, [selectedDay, service.id])
 
   const selectedDate = useMemo(() => {
@@ -122,11 +134,14 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     setSelectedDay(undefined)
     setSelectedTime(undefined)
     setUnavailable([])
+    setOpeningHours([])
+    setIsLoadingSlots(false)
     setBookingSheetIsOpen(false)
   }
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDay(date)
+    setSelectedTime(undefined)
   }
 
   const handleTimeSelect = (time: string) => {
@@ -280,7 +295,16 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
                     {selectedDay && (
                       <div className="border-b border-solid p-5">
-                        {timeList.length > 0 ? (
+                        {isLoadingSlots ? (
+                          <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                            {Array.from({ length: 12 }).map((_, i) => (
+                              <div
+                                key={i}
+                                className="bg-muted/60 h-8 animate-pulse rounded-md"
+                              />
+                            ))}
+                          </div>
+                        ) : timeList.length > 0 ? (
                           <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
                             {timeList.map((time) => (
                               <Button
@@ -297,8 +321,9 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                           </div>
                         ) : (
                           <p className="text-muted-foreground text-sm">
-                            A barbearia não atende nesse dia ou os horários já
-                            foram preenchidos.
+                            {isClosedOn(openingHours, selectedDay)
+                              ? "A barbearia não atende nesse dia."
+                              : "Os horários desse dia já foram preenchidos."}
                           </p>
                         )}
                       </div>
