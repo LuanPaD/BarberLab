@@ -19,8 +19,6 @@ function createPrismaClient(): PrismaClient {
   }
 
   if (!globalThis.cachedPool) {
-    // sslmode/channel_binding na URL geram aviso do pg-connection-string e
-    // são redundantes: o SSL é configurado abaixo.
     const url = new URL(connectionString)
     url.searchParams.delete("sslmode")
     url.searchParams.delete("channel_binding")
@@ -37,6 +35,11 @@ function createPrismaClient(): PrismaClient {
   }
 
   return globalThis.cachedPrisma
+}
+
+export const getPool = (): Pool => {
+  if (!globalThis.cachedPool) createPrismaClient()
+  return globalThis.cachedPool!
 }
 
 export const db = new Proxy({} as PrismaClient, {

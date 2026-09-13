@@ -26,7 +26,6 @@ export const authOptions: AuthOptions = {
       }
       return session
     },
-    // Inerte com a estratégia "database"; mantido caso mude para "jwt".
     async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id

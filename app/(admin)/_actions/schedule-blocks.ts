@@ -5,7 +5,7 @@ import { db } from "@/app/_lib/prisma"
 import { BookingStatus } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { LIMITES, dentroDoLimite, erroDeLimite } from "@/app/_lib/rate-limit"
+import { consumeRateLimit, rateLimitError } from "@/app/_lib/rate-limit"
 
 const timeSchema = z.string().regex(/^\d{2}:\d{2}$/, "Horário inválido.")
 
@@ -33,12 +33,9 @@ export const createScheduleBlock = async (input: unknown) => {
     return { ok: false as const, error: "Acesso negado." }
   }
 
-  const limite = dentroDoLimite(
-    `painel:${admin.barbershopId}`,
-    LIMITES.escritaDoPainel,
-  )
-  if (!limite.permitido) {
-    return erroDeLimite(limite.segundosParaLiberar)
+  const limit = await consumeRateLimit("adminWrite", admin.barbershopId)
+  if (!limit.allowed) {
+    return rateLimitError(limit.retryAfterSeconds)
   }
 
   const parsed = createSchema.safeParse(input)
@@ -89,12 +86,9 @@ export const deleteScheduleBlock = async (blockId: string) => {
     return { ok: false as const, error: "Acesso negado." }
   }
 
-  const limite = dentroDoLimite(
-    `painel:${admin.barbershopId}`,
-    LIMITES.escritaDoPainel,
-  )
-  if (!limite.permitido) {
-    return erroDeLimite(limite.segundosParaLiberar)
+  const limit = await consumeRateLimit("adminWrite", admin.barbershopId)
+  if (!limit.allowed) {
+    return rateLimitError(limit.retryAfterSeconds)
   }
 
   const result = await db.scheduleBlock.deleteMany({

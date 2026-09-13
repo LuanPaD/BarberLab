@@ -5,7 +5,7 @@ import { addMinutes, endOfDay, startOfDay } from "date-fns"
 import { auth } from "../_lib/auth"
 import { db } from "../_lib/prisma"
 import { withDefaults } from "../_lib/opening-hours"
-import { LIMITES, dentroDoLimite, enderecoDoCliente } from "../_lib/rate-limit"
+import { consumeRateLimit, getClientIp } from "../_lib/rate-limit"
 
 interface GetUnavailableIntervalsProps {
   serviceId: string
@@ -17,7 +17,6 @@ export interface UnavailableInterval {
   endsAt: Date
 }
 
-/** Faixas ocupadas do dia: reservas e bloqueios, sem expor de quem são. */
 export const getUnavailableIntervals = async ({
   serviceId,
   date,
@@ -25,11 +24,8 @@ export const getUnavailableIntervals = async ({
   const session = await auth()
   if (!session?.user) return []
 
-  const limite = dentroDoLimite(
-    `agenda:${session.user.id}`,
-    LIMITES.leituraDeAgenda,
-  )
-  if (!limite.permitido) return []
+  const limit = await consumeRateLimit("readSchedule", session.user.id)
+  if (!limit.allowed) return []
 
   const service = await db.barbershopService.findUnique({
     where: { id: serviceId },
@@ -74,14 +70,9 @@ export const getUnavailableIntervals = async ({
   ]
 }
 
-/** Expediente da barbearia dona do serviço, para a tela montar a grade. */
 export const getServiceOpeningHours = async (serviceId: string) => {
-  // Ação pública: sem sessão para identificar, o limite vai pelo endereço.
-  const limite = dentroDoLimite(
-    `expediente:${await enderecoDoCliente()}`,
-    LIMITES.leituraDeAgenda,
-  )
-  if (!limite.permitido) return []
+  const limit = await consumeRateLimit("readSchedule", await getClientIp())
+  if (!limit.allowed) return []
 
   const service = await db.barbershopService.findUnique({
     where: { id: serviceId },

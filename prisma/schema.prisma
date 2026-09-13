@@ -151,3 +151,9 @@ model ScheduleBlock {
 
   @@index([barbershopId, startsAt])
 }
+
+model RateLimit {
+  key    String  @id @db.VarChar(255)
+  points Int     @default(0)
+  expire BigInt?
+}

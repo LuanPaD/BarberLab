@@ -34,7 +34,6 @@ export const deleteBooking = async (bookingId: string) => {
     session.user.barbershopId === booking.service.barbershopId
 
   if (!isOwner && !isBarbershopAdmin) {
-    // Não confirma a um estranho que o id existe.
     return { ok: false as const, error: "Reserva não encontrada." }
   }
 

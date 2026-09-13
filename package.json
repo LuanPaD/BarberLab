@@ -47,6 +47,7 @@
     "next-auth": "^4.24.15",
     "next-themes": "^0.4.6",
     "pg": "^8.23.0",
+    "rate-limiter-flexible": "^11.2.0",
     "react": "^19.2.8",
     "react-day-picker": "^9.14.0",
     "react-dom": "^19.2.8",

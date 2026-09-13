@@ -7,9 +7,6 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Button } from "./ui/button"
 
-// Só atalho de navegação; o acesso é barrado no layout de (admin) e nas
-// actions. Renderiza após montar porque a sessão não existe no servidor e a
-// diferença de nós quebrava a hidratação.
 const AdminPanelLink = ({ className }: { className?: string }) => {
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)

@@ -17,7 +17,6 @@ const TONES = {
   destructive: "bg-destructive/10 text-destructive",
 } as const
 
-// Ícone acima do texto no mobile: lado a lado o rótulo não cabia.
 const StatCard = ({
   label,
   value,

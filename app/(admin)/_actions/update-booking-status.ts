@@ -5,7 +5,7 @@ import { db } from "@/app/_lib/prisma"
 import { BookingStatus } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { LIMITES, dentroDoLimite, erroDeLimite } from "@/app/_lib/rate-limit"
+import { consumeRateLimit, rateLimitError } from "@/app/_lib/rate-limit"
 
 const schema = z.object({
   bookingId: z.string().uuid(),
@@ -18,12 +18,9 @@ export const updateBookingStatus = async (input: unknown) => {
     return { ok: false as const, error: "Acesso negado." }
   }
 
-  const limite = dentroDoLimite(
-    `painel:${admin.barbershopId}`,
-    LIMITES.escritaDoPainel,
-  )
-  if (!limite.permitido) {
-    return erroDeLimite(limite.segundosParaLiberar)
+  const limit = await consumeRateLimit("adminWrite", admin.barbershopId)
+  if (!limit.allowed) {
+    return rateLimitError(limit.retryAfterSeconds)
   }
 
   const parsed = schema.safeParse(input)
@@ -31,7 +28,6 @@ export const updateBookingStatus = async (input: unknown) => {
     return { ok: false as const, error: "Dados inválidos." }
   }
 
-  // barbershopId no where: reserva de outra barbearia devolve count 0.
   const result = await db.booking.updateMany({
     where: {
       id: parsed.data.bookingId,

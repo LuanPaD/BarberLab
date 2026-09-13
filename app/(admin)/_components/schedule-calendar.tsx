@@ -17,9 +17,6 @@ const ScheduleCalendar = ({ date }: ScheduleCalendarProps) => {
 
   useEffect(() => setVisibleMonth(date), [date])
 
-  // Trocar de mês é navegação visual e fica em estado local. Só a escolha de
-  // um dia muda a URL — antes cada mês disparava uma navegação, e cliques
-  // seguidos se perdiam no caminho.
   return (
     <Calendar
       mode="single"

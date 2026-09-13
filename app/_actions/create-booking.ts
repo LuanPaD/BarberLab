@@ -10,7 +10,7 @@ import {
   findDayHours,
   withDefaults,
 } from "../_lib/opening-hours"
-import { LIMITES, dentroDoLimite, erroDeLimite } from "../_lib/rate-limit"
+import { consumeRateLimit, rateLimitError } from "../_lib/rate-limit"
 
 interface CreateBookingParams {
   serviceId: string
@@ -22,7 +22,6 @@ const MAXIMO_DE_RESERVAS_EM_ABERTO = 3
 const overlaps = (aStart: Date, aEnd: Date, bStart: Date, bEnd: Date) =>
   aStart < bEnd && aEnd > bStart
 
-// A disponibilidade da tela é conveniência; quem decide é o servidor.
 export const createBooking = async ({
   serviceId,
   date,
@@ -33,13 +32,10 @@ export const createBooking = async ({
     return { ok: false as const, error: "Você precisa estar logado." }
   }
 
-  const limite = dentroDoLimite(
-    `reserva:${session.user.id}`,
-    LIMITES.criarReserva,
-  )
+  const limit = await consumeRateLimit("createBooking", session.user.id)
 
-  if (!limite.permitido) {
-    return erroDeLimite(limite.segundosParaLiberar)
+  if (!limit.allowed) {
+    return rateLimitError(limit.retryAfterSeconds)
   }
 
   const bookingDate = new Date(date)

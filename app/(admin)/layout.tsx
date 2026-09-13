@@ -14,8 +14,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-// A casca fica em Server Component e cada peça interativa é client folha:
-// envolver `children` num client component quebrava a hidratação do Radix.
 const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
   const admin = await requireBarbershopAdmin()
 

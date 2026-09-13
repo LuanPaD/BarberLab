@@ -1,6 +1,5 @@
 import { z } from "zod"
 
-// Fora do módulo "use server": lá todo export precisa ser função async.
 export const serviceSchema = z.object({
   id: z.uuid().optional(),
   name: z.string().trim().min(2, "Informe o nome do serviço.").max(60),

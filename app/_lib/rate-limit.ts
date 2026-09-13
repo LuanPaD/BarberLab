@@ -1,80 +1,86 @@
 import { headers } from "next/headers"
+import {
+  RateLimiterMemory,
+  RateLimiterPostgres,
+  RateLimiterRes,
+  type RateLimiterAbstract,
+} from "rate-limiter-flexible"
+import { getPool } from "./prisma"
 
-interface Janela {
-  inicio: number
-  chamadas: number
+export const RATE_LIMITS = {
+  createBooking: { points: 5, duration: 60 },
+  readSchedule: { points: 30, duration: 60 },
+  adminWrite: { points: 20, duration: 60 },
+} as const
+
+export type RateLimitName = keyof typeof RATE_LIMITS
+
+const limiters = new Map<RateLimitName, RateLimiterAbstract>()
+
+const createLimiter = (name: RateLimitName): RateLimiterAbstract => {
+  const { points, duration } = RATE_LIMITS[name]
+
+  return new RateLimiterPostgres({
+    storeClient: getPool(),
+    storeType: "pool",
+    tableName: "RateLimit",
+    tableCreated: true,
+    keyPrefix: name,
+    points,
+    duration,
+    insuranceLimiter: new RateLimiterMemory({ points, duration }),
+  })
 }
 
-const janelas = new Map<string, Janela>()
+const getLimiter = (name: RateLimitName) => {
+  const existing = limiters.get(name)
+  if (existing) return existing
 
-const LIMPEZA_A_CADA = 500
-let escritasDesdeALimpeza = 0
+  const limiter = createLimiter(name)
+  limiters.set(name, limiter)
+  return limiter
+}
 
-const descartarExpiradas = (agora: number) => {
-  for (const [chave, janela] of janelas) {
-    if (agora - janela.inicio > 60 * 60 * 1000) janelas.delete(chave)
+interface RateLimitResult {
+  allowed: boolean
+  retryAfterSeconds: number
+}
+
+export const consumeRateLimit = async (
+  name: RateLimitName,
+  key: string,
+): Promise<RateLimitResult> => {
+  try {
+    await getLimiter(name).consume(key)
+    return { allowed: true, retryAfterSeconds: 0 }
+  } catch (rejection) {
+    if (rejection instanceof RateLimiterRes) {
+      return {
+        allowed: false,
+        retryAfterSeconds: Math.ceil(rejection.msBeforeNext / 1000),
+      }
+    }
+
+    console.error("[rate-limit] falha ao consumir", name, rejection)
+    return { allowed: true, retryAfterSeconds: 0 }
   }
 }
 
-interface Limite {
-  chamadas: number
-  porSegundos: number
-}
-
-export const LIMITES = {
-  criarReserva: { chamadas: 5, porSegundos: 60 },
-  leituraDeAgenda: { chamadas: 30, porSegundos: 60 },
-  escritaDoPainel: { chamadas: 20, porSegundos: 60 },
-} satisfies Record<string, Limite>
-
-/**
- * Contador em memória do processo. Em serverless cada instância tem o seu, então
- * isto barra a martelada de um cliente, não um ataque distribuído — para esse
- * caso a mesma interface aceita `@upstash/ratelimit` com Redis.
- */
-export const dentroDoLimite = (
-  chave: string,
-  { chamadas, porSegundos }: Limite,
-) => {
-  const agora = Date.now()
-
-  if (++escritasDesdeALimpeza >= LIMPEZA_A_CADA) {
-    escritasDesdeALimpeza = 0
-    descartarExpiradas(agora)
-  }
-
-  const janela = janelas.get(chave)
-
-  if (!janela || agora - janela.inicio >= porSegundos * 1000) {
-    janelas.set(chave, { inicio: agora, chamadas: 1 })
-    return { permitido: true as const }
-  }
-
-  if (janela.chamadas >= chamadas) {
-    const faltam = Math.ceil(
-      (janela.inicio + porSegundos * 1000 - agora) / 1000,
-    )
-    return { permitido: false as const, segundosParaLiberar: faltam }
-  }
-
-  janela.chamadas++
-  return { permitido: true as const }
-}
-
-export const enderecoDoCliente = async () => {
-  const cabecalhos = await headers()
-  const encaminhado = cabecalhos.get("x-forwarded-for")
-  return (
-    encaminhado?.split(",")[0]?.trim() ||
-    cabecalhos.get("x-real-ip") ||
-    "desconhecido"
-  )
-}
-
-export const erroDeLimite = (segundos: number) => ({
+export const rateLimitError = (retryAfterSeconds: number) => ({
   ok: false as const,
   error:
-    segundos > 60
+    retryAfterSeconds > 60
       ? "Muitas tentativas. Tente de novo daqui a alguns minutos."
-      : `Muitas tentativas. Tente de novo em ${segundos}s.`,
+      : `Muitas tentativas. Tente de novo em ${retryAfterSeconds}s.`,
 })
+
+export const getClientIp = async () => {
+  const requestHeaders = await headers()
+  const forwarded = requestHeaders.get("x-forwarded-for")
+
+  return (
+    forwarded?.split(",")[0]?.trim() ||
+    requestHeaders.get("x-real-ip") ||
+    "unknown"
+  )
+}

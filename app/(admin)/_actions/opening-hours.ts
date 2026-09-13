@@ -4,7 +4,7 @@ import { requireBarbershopAdmin } from "@/app/_lib/auth"
 import { db } from "@/app/_lib/prisma"
 import { revalidatePath } from "next/cache"
 import { openingHoursSchema } from "../_lib/opening-hours-schema"
-import { LIMITES, dentroDoLimite, erroDeLimite } from "@/app/_lib/rate-limit"
+import { consumeRateLimit, rateLimitError } from "@/app/_lib/rate-limit"
 
 export const saveOpeningHours = async (input: unknown) => {
   const admin = await requireBarbershopAdmin()
@@ -12,12 +12,9 @@ export const saveOpeningHours = async (input: unknown) => {
     return { ok: false as const, error: "Acesso negado." }
   }
 
-  const limite = dentroDoLimite(
-    `painel:${admin.barbershopId}`,
-    LIMITES.escritaDoPainel,
-  )
-  if (!limite.permitido) {
-    return erroDeLimite(limite.segundosParaLiberar)
+  const limit = await consumeRateLimit("adminWrite", admin.barbershopId)
+  if (!limit.allowed) {
+    return rateLimitError(limit.retryAfterSeconds)
   }
 
   const parsed = openingHoursSchema.safeParse(input)

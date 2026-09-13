@@ -42,7 +42,6 @@ export const getConfirmedBookings = async () => {
   return bookings.map(toBookingItem)
 }
 
-/** Só o que o BookingItem desenha, para não inflar o payload. */
 const toBookingItem = (booking: {
   id: string
   date: Date

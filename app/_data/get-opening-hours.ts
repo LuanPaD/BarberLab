@@ -1,7 +1,6 @@
 import { withDefaults } from "@/app/_lib/opening-hours"
 import { db } from "@/app/_lib/prisma"
 
-/** Expediente da barbearia, já completado com o padrão nos dias que faltarem. */
 export const getBarbershopOpeningHours = async (barbershopId: string) =>
   withDefaults(
     await db.openingHour.findMany({

@@ -3,7 +3,6 @@ import { ptBR } from "date-fns/locale"
 
 const DEFAULT_COUNTRY_CODE = "55"
 
-/** Telefone só com dígitos e DDI, como o wa.me espera. Null se inaproveitável. */
 export const normalizePhone = (
   phone: string | null | undefined,
 ): string | null => {
@@ -22,7 +21,6 @@ export const normalizePhone = (
     digits = digits.replace(/^0+/, "")
   }
 
-  // DDD + número: 10 dígitos no fixo, 11 no celular.
   if (digits.length === 10 || digits.length === 11) {
     return `${DEFAULT_COUNTRY_CODE}${digits}`
   }
@@ -61,7 +59,6 @@ const formatWhen = (date: Date) => ({
   time: format(date, "HH:mm", { locale: ptBR }),
 })
 
-/** Cliente confirmando a reserva com a barbearia. */
 export const buildCustomerConfirmationMessage = ({
   serviceName,
   date,
@@ -86,7 +83,6 @@ export const buildCustomerConfirmationMessage = ({
     .join("\n")
 }
 
-/** Barbeiro lembrando o cliente do horário. */
 export const buildBarberReminderMessage = ({
   serviceName,
   date,
@@ -111,10 +107,6 @@ export const buildBarberReminderMessage = ({
     .join("\n")
 }
 
-/**
- * Deep link do wa.me — sem API oficial, para não arriscar banimento.
- * Sem telefone válido vai sem destinatário e o WhatsApp pede o contato.
- */
 export const buildWhatsAppUrl = ({
   phone,
   message,

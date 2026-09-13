@@ -49,7 +49,6 @@ interface GetTimeListProps {
   openingHours: OpeningHourSlot[]
 }
 
-// Um horário só aparece se o atendimento inteiro couber nele e no expediente.
 const getTimeList = ({
   intervals,
   selectedDay,
@@ -175,7 +174,6 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
           }),
         })
 
-        // Uma ação só: com duas o sonner espreme a coluna de texto.
         toast.success("Reserva criada com sucesso!", {
           description: "Confirme com a barbearia pelo WhatsApp.",
           duration: 10000,

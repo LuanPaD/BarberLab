@@ -16,8 +16,6 @@ const anel = (top: number) => ({
   border: `9px solid ${VERDE}`,
 })
 
-// Cada lâmina parte do seu próprio anel; é o que as faz cruzar em vez de
-// formarem um bico único.
 const lamina = (centroDoAnelY: number, rotacao: number) => ({
   position: "absolute" as const,
   left: 62,

@@ -14,7 +14,6 @@ import AdminPanelLink from "./admin-panel-link"
 
 const referenciaDoComponenteInput = searchInputRef
 
-/** Filtra os elementos marcados com `data-search-name` na página atual. */
 const filterSearchableElements = (searchTerm: string) => {
   const elements = document.querySelectorAll<HTMLElement>("[data-search-name]")
 

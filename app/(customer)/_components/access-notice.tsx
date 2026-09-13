@@ -9,8 +9,6 @@ const MESSAGES: Record<string, string> = {
     "A barbearia vinculada à sua conta não foi encontrada.",
 }
 
-// Valor lido no servidor e passado por prop: `useSearchParams` exigiria um
-// <Suspense>, cuja fronteira quebrava a hidratação.
 const AccessNotice = ({ error }: { error?: string }) => {
   const shown = useRef<string | null>(null)
 

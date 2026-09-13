@@ -28,7 +28,6 @@ export interface AgendaBlock {
   reason: string | null
 }
 
-/** Agenda do dia. O `barbershopId` vem validado pelo chamador. */
 export const getDayAgenda = async (barbershopId: string, date: Date) => {
   const from = startOfDay(date)
   const to = endOfDay(date)

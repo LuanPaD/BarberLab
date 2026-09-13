@@ -54,7 +54,6 @@ const Schedule = async ({ searchParams }: ScheduleProps) => {
   const date = parseDateParam(dateParam)
   const { bookings, blocks } = await getDayAgenda(admin.barbershopId, date)
 
-  // Reservas e bloqueios entram na mesma linha do tempo, ordenados por hora.
   const timeline: TimelineEntry[] = [
     ...bookings.map<TimelineEntry>((booking) => ({
       kind: "booking",

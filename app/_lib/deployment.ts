@@ -1,5 +1,3 @@
-// Servidor apenas: nada aqui tem prefixo NEXT_PUBLIC_.
-
 export const DEMO_BARBERSHOP_ID = process.env.DEMO_BARBERSHOP_ID?.trim() || null
 export const isDemo = process.env.DEMO_MODE === "true" && !!DEMO_BARBERSHOP_ID
 
