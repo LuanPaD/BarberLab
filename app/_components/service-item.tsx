@@ -228,94 +228,96 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 </Button>
 
                 <SheetContent
-                  className="w-[92%] px-0 sm:max-w-md"
+                  className="w-[92%] gap-0 p-0 sm:max-w-md"
                   aria-describedby={undefined}
                 >
-                  <SheetHeader className="flex items-center">
-                    <SheetTitle className="flex items-center">
-                      Fazer Reserva
-                    </SheetTitle>
+                  <SheetHeader className="items-center border-b border-solid px-5 py-4">
+                    <SheetTitle>Fazer Reserva</SheetTitle>
                   </SheetHeader>
 
-                  <div className="border-b border-solid px-5 py-5">
-                    <Calendar
-                      mode="single"
-                      locale={ptBR}
-                      selected={selectedDay}
-                      onSelect={handleDateSelect}
-                      disabled={(date: Date) =>
-                        date < new Date(new Date().setHours(0, 0, 0, 0))
-                      }
-                      className="w-full"
-                      styles={{
-                        root: {
-                          width: "100%",
-                        },
-                        table: {
-                          width: "100%",
-                        },
-                        head_cell: {
-                          width: "100%",
-                          textTransform: "capitalize",
-                        },
-                        cell: {
-                          width: "100%",
-                        },
-                        button: {
-                          width: "100%",
-                        },
-                        nav_button_previous: {
-                          width: "32px",
-                          height: "32px",
-                        },
-                        nav_button_next: {
-                          width: "32px",
-                          height: "32px",
-                        },
-                        caption: {
-                          textTransform: "capitalize",
-                        },
-                      }}
-                    />
-                  </div>
-
-                  {selectedDay && (
-                    <div className="max-h-56 overflow-y-auto border-b border-solid p-5">
-                      {timeList.length > 0 ? (
-                        <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-                          {timeList.map((time) => (
-                            <Button
-                              key={time}
-                              size="sm"
-                              variant={
-                                selectedTime === time ? "default" : "outline"
-                              }
-                              onClick={() => handleTimeSelect(time)}
-                            >
-                              {time}
-                            </Button>
-                          ))}
-                        </div>
-                      ) : (
-                        <p className="text-muted-foreground text-sm">
-                          A barbearia não atende nesse dia ou os horários já
-                          foram preenchidos.
-                        </p>
-                      )}
-                    </div>
-                  )}
-
-                  {selectedDate && (
-                    <div className="p-5">
-                      <BookingSummary
-                        barbershop={barbershop}
-                        service={service}
-                        selectedDate={selectedDate}
+                  <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+                    <div className="border-b border-solid px-5 py-5">
+                      <Calendar
+                        mode="single"
+                        locale={ptBR}
+                        selected={selectedDay}
+                        onSelect={handleDateSelect}
+                        disabled={(date: Date) =>
+                          date < new Date(new Date().setHours(0, 0, 0, 0))
+                        }
+                        className="w-full"
+                        styles={{
+                          root: {
+                            width: "100%",
+                          },
+                          table: {
+                            width: "100%",
+                          },
+                          head_cell: {
+                            width: "100%",
+                            textTransform: "capitalize",
+                          },
+                          cell: {
+                            width: "100%",
+                          },
+                          button: {
+                            width: "100%",
+                          },
+                          nav_button_previous: {
+                            width: "32px",
+                            height: "32px",
+                          },
+                          nav_button_next: {
+                            width: "32px",
+                            height: "32px",
+                          },
+                          caption: {
+                            textTransform: "capitalize",
+                          },
+                        }}
                       />
                     </div>
-                  )}
-                  <SheetFooter className="mt-5 px-5">
+
+                    {selectedDay && (
+                      <div className="border-b border-solid p-5">
+                        {timeList.length > 0 ? (
+                          <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                            {timeList.map((time) => (
+                              <Button
+                                key={time}
+                                size="sm"
+                                variant={
+                                  selectedTime === time ? "default" : "outline"
+                                }
+                                onClick={() => handleTimeSelect(time)}
+                              >
+                                {time}
+                              </Button>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-muted-foreground text-sm">
+                            A barbearia não atende nesse dia ou os horários já
+                            foram preenchidos.
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {selectedDate && (
+                      <div className="p-5">
+                        <BookingSummary
+                          barbershop={barbershop}
+                          service={service}
+                          selectedDate={selectedDate}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  <SheetFooter className="border-t border-solid px-5 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
                     <Button
+                      className="w-full"
                       onClick={handleCreateBooking}
                       disabled={!selectedDay || !selectedTime || isCreating}
                     >
